@@ -1,0 +1,73 @@
+.carousel-div {
+  position: absolute;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  align-items: center;
+  margin-top: 0.9%;
+  padding-left: 0.9%;
+}
+
+@media screen and (min-width: 768px) {
+  .carousel-div {
+    margin-top: 1.5%;
+  }
+}
+
+.carouselImage1 {
+  width: 100%;
+  height: 642px;
+}
+@media screen and (max-width: 768px) {
+    .carouselImage1 {
+        height: 35vh;
+    }
+}
+
+
+.carousel-div-mainText {
+  font-size: 72px;
+  line-height: 88px;
+  color: #0e4944;
+  display: flex;
+  
+}
+@media screen and (max-width: 768px) {
+  .carousel-div-mainText {
+    font-size: 45px;
+  }
+}
+.carousel-div-subText {
+  font-size: 36px;
+  line-height: 44px;
+  color: #0e4944;
+  display: flex;
+  width: 65%;
+}
+@media screen and (max-width: 768px) {
+  .carousel-div-subText {
+    font-size: 20px;
+    line-height: 22px;
+    width: 55%;
+
+  }
+}
+
+.join-button {
+  background: #0e4944;
+  border-radius: 6px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+  margin-top: 25px;
+}
+/* .slick-dots{
+
+} */

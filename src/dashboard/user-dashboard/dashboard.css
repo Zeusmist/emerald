@@ -1,0 +1,68 @@
+.user_dashboard_root {
+  padding: 60px 45px 50px 20px;
+}
+
+.fundWalletButton {
+  background: #41ec7b;
+  border-radius: 3px;
+  font-family: Century Gothic;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+}
+
+.dashboardTopAction {
+  display: flex;
+}
+
+.chartSection {
+  margin-bottom: 50px;
+  margin-top: 25px;
+}
+
+.investmentCard {
+  background: #feffff;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.activeBtn {
+  color: #191d38;
+  background: #feffff;
+}
+
+.timeSelector {
+  border: 1px solid #cad7df;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+/* .durBtn {
+  border-bottom: none;
+  margin-bottom: 0;
+} */
+
+.analyticsTableCont {
+  background: #feffff;
+  box-shadow: 0px 24px 48px rgba(25, 29, 56, 0.16);
+  border-radius: 8px;
+  /* padding-top: 24px; */
+}
+
+.farmProjs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0;
+padding: 24px;
+}
+
+@media screen and (max-width:767px){
+  .farmProjs {
+    display: block;
+
+  }
+}
+

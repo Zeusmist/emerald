@@ -1,0 +1,333 @@
+.superAdminText{
+    font-family: Century Gothic;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+    color: #191D38;
+}
+
+.SuperAdmindWallet{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.superAdminFundButt{
+    width: 163px;
+    height: 37px;
+    background: #0E4944;
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+}
+
+.superAdminTabMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.superAdminTabsOne{
+    background-color: #fff;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 1px solid grey;
+}
+.superAdminTabsTwo{
+    background-color: transparent;
+    padding-left: 24px;
+    padding-right: 24px;
+    border: 1px solid grey;  
+    border-left: none;
+}
+.superAdminTabsThree{
+    background-color: transparent;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid grey;  
+    border-left: none;
+}
+
+.superAdminTabText{
+    font-family: Century Gothic;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 17px;
+text-align: center;
+color: #191D38;
+}
+
+.exportButt{
+    width: 143px;
+    height: 37px;
+    background: #0E4944;
+    border-radius: 8px;
+    border: none;
+    color: #fff;
+}
+.superAdminFarm{
+    font-family: Century Gothic;
+font-style: normal;
+font-weight: bold;
+font-size: 12px;
+line-height: 15px;
+color: #000000;
+}
+
+.superAdminPrice{
+    font-family: Bebas Neue;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 22px;
+color: #41EC7B;
+}
+
+.superAdminAddFarm{
+    border: 0.5px solid rgba(65, 236, 123, 0.4);
+    border-radius: 20px;
+}
+
+.superAdminAddSale{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.superAdminBuyer{
+    width: 94px;
+    height: 35px;
+    background: #0E4944;
+    border-radius: 100px;
+    color: #fff;
+}
+
+.showBuyer{
+    display: flex;
+    flex-direction: row;
+}
+
+.addBuyers{
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background: #41EC7B;
+}
+
+.AddNewItem{
+font-family: Century Gothic;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 15px;
+
+color: #000000;
+}
+
+.actionBut{
+    width: 73px;
+    height: 37px;
+    background: #147AD6;
+    border-radius: 100px;
+    border: none;
+    color: #fff;
+}
+
+.moreBut{
+    width: 73px;
+    height: 37px;
+    background: #B2A0FD;
+    border-radius: 100px;
+    border: none;
+    color: #fff;
+}
+
+.userProfile{
+font-family: Mulish;
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 30px;
+letter-spacing: 0.3px;
+color: #252733;
+}
+
+.personalProfile{
+    font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 19px;
+display: flex;
+align-items: center;
+color: #000000;
+}
+
+.myForm{
+    display: block;
+    width: 95%;
+    height: calc(1.9em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.myshortform{
+    display: block;
+    width: 45%;
+    height: calc(1.9em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.bankdetails{
+    font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 23px;
+display: flex;
+align-items: center;
+
+color: #000000;
+}
+
+.gtbank{
+    font-family: Roboto;
+font-style: normal;
+font-weight: 300;
+font-size: 18px;
+line-height: 21px;
+display: flex;
+align-items: center;
+color: #000000;
+}
+
+.prim{
+    font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 14px;
+display: flex;
+align-items: center;
+
+color: #B2A0FD;
+}
+
+.walFund{
+    font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+line-height: 23px;
+display: flex;
+align-items: center;
+
+color: #000000;
+}
+
+.viewInvest{
+    font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 20px;
+line-height: 23px;
+display: flex;
+align-items: center;
+
+color: #B2A0FD;
+}
+
+.wallBut{
+    display: block;
+    width: 95%;
+    height: calc(1.9em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.adminFarmOne{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.adminfarmText{
+    font-family: Century Gothic;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 37px;
+    color: #000000;
+}
+
+.adminfarmSmall{
+    font-family: Century Gothic;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    color: #9880FC;
+}
+@media (max-width: 952px){
+    .SuperAdmindWallet{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding-top: 20px;
+    }
+
+    .showBuyer{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .addBuyers{
+        width: 95%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        background: #41EC7B;
+    }
+    }
+    
+    @media (max-width: 858px){
+     
+    }

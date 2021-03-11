@@ -1,0 +1,60 @@
+.navbar {
+  height: 139px;
+}
+
+.nav-item {
+  font-family: "century gothic", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 29px;
+  display: flex;
+  align-items: center;
+}
+@media screen and (min-width: 768px) {
+  .nav-item {
+    margin-right: 35px;
+  }
+}
+.nav-link {
+  color: #ffffff;
+}
+
+.login-button {
+  background: #ffffff;
+  border: 1px solid #41ec7b;
+  box-sizing: border-box;
+  border-radius: 6px;
+  width: 130px;
+  height: 40px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  letter-spacing: -0.015em;
+  color: #0e4944;
+}
+
+.register-button {
+  background: #41ec7b;
+  box-sizing: border-box;
+  border-radius: 6px;
+  width: 130px;
+  height: 40px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+}

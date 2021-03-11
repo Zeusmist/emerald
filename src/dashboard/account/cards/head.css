@@ -1,0 +1,26 @@
+.headRoot{
+    background: #0E4944;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+border-radius: 5px;
+padding:7px 60px
+}
+.headMainTxt{
+    font-family: Century Gothic;
+font-style: normal;
+font-weight: normal;
+font-size: 48px;
+line-height: 59px;
+display: flex;
+align-items: center;
+color: #FFFFFF;
+
+}
+.headUsername{
+    font-family: Century Gothic;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 22px;
+color: rgba(255, 255, 255, 0.8);
+
+}

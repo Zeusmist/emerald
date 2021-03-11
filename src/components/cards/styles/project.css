@@ -1,0 +1,44 @@
+/* project css */
+
+.projRoot{
+    border: 1px solid #E3EDF3;
+  border-radius: 10px;
+  /* padding-left: 17px; */
+  padding-top: 23px;
+  /* max-width: 212px; */
+  /* height: 120px; */
+  }
+  
+  .invstrNumber{
+    font-family: Bebas Neue;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 25px;
+  line-height: 30px;
+  color: #161A35;
+  }
+  
+  .invstrText{
+    font-family: Century Gothic;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #737588;
+  }
+  
+  .instrStat{
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+  }
+  
+  .invstrStatPercent{
+    font-family: Bebas Neue;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 34px;
+  color: #0EBE7B;
+  padding-left: 5px;
+  }

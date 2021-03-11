@@ -1,0 +1,37 @@
+.subscribe-form {
+  position: relative;
+  overflow: hidden;
+  width: 200px;
+}
+.subscribe-form input {
+  width: 100%;
+  padding: 14px 28px;
+  /* background: #ebe7e7; */
+  border: 1px solid #000000;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 21px;
+  color: #0e4944;
+}
+.subscribe-form button {
+  position: absolute;
+  right: 0;
+  background: #3ce176;
+  padding: 13px 20px;
+  border: 0px none white;
+  margin-top: 2px;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+  height: fit-content;
+  /* font-size: 16px; */
+  /* line-height: 21px; */
+  color: #ffffff;
+}
+.subscribe-form button i {
+  color: #fff;
+  font-size: 22px;
+  transform: rotate(-6deg);
+}
