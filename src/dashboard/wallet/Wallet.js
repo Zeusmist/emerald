@@ -101,9 +101,10 @@ const [transferAmount, setTransferAmount] = useState('')
   const handleSubmitTransfer = async (e)=>{
     e.preventDefault();
 
-    if(origin === destination) {setSmallText('Origin and Destination must be different!')}
-    
-    await fetch(
+    if(origin === destination){
+      swal("Origin must be different from Destination", "failed");
+    }else{
+      await fetch(
         "https://desolate-anchorage-42140.herokuapp.com/api/v1/users/wallet/transfer",
         {
           method: "PATCH",
@@ -127,6 +128,9 @@ const [transferAmount, setTransferAmount] = useState('')
         .catch((error) => {
           console.error("Error:", error);
         });
+    }
+    
+    
   
       handleCloseFund();
   }

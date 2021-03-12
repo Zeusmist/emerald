@@ -38,6 +38,7 @@ const PaymentMethod = ({id, token}) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        swal("Card Added", "success");
         
         // if(data?.status === 'success'){
         //   swal("Funds Transfer!", ` With ${transferAmount}`, "success");

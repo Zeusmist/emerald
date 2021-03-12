@@ -87,6 +87,15 @@ function App() {
             <Route path="/transaction">
               <NavBar />
             </Route>
+            <Route path="/investment">
+              <NavBar />
+            </Route>
+            <Route path="/payout">
+              <NavBar />
+            </Route>
+            <Route path="/deposit">
+              <NavBar />
+            </Route>
             <Route path="/farmlist">
               <NavBar />
             </Route>
