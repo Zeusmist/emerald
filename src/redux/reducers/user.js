@@ -2,7 +2,7 @@ import { SET_USER_INFO, GET_CARDS, GET_WALLETS } from "../type";
 
 const initialState = {
   data: {},
-  cards:{},
+  cards:[],
   wallets:[]
 };
 
@@ -20,11 +20,12 @@ case GET_WALLETS:
   }
 
 
-// case GET_CARDS:
-//   return{
-// ...state,
-// cards:payload?.cards
-//   }
+case GET_CARDS:
+  return{
+...state,
+cards:payload?.cards
+  }
+
     default:
       return state;
   }

@@ -19,10 +19,57 @@ const [transferAmount, setTransferAmount] = useState('')
   const [destination, setDestination] = useState('')
   const [amount, setAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+
+  
   console.log(
     ":::::::::::::::::::balance", wallets
-    //`${data.user?.wallets[0]?.balance}  ${data.user?.wallets[1]?.balance} ${data.user?.wallets[2]?.balance}`
   );
+
+
+  const cards = wallets.map((card, i)=>{
+    return(
+      <div className="col-md-4 col-sm-12">
+          <div className="cardOne ">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingRight: 15,
+              }}
+            >
+              <p className="walletP">
+                {card?.type}
+                <br />
+                WALLET
+              </p>
+              <div>
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 100,
+                    marginTop: 20,
+                  }}
+                >
+                  <Card />
+                </div>
+                <small>Master card</small>
+              </div>
+            </div>
+            <div>
+              <p>
+                Current Balance <br />
+                <small className="pSmall">
+                 N{card?.balance}.00
+                </small>
+              </p>
+            </div>
+          </div>
+          {/* <p className="text-center">Buy farm units from here</p> */}
+        </div>
+    )
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,128 +138,7 @@ const [transferAmount, setTransferAmount] = useState('')
   return (
     <div className="dashboard col-md-12" style={{ height: "100%" }}>
       <div className="walletCards mt-4 row d-flex justify-content-around m-0">
-        <div className="col-md-4 col-sm-12">
-          <div className="cardOne ">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingRight: 15,
-              }}
-            >
-              <p className="walletP">
-                {/* {data.user?.wallets[0]?.type} */}
-                <br />
-                WALLET
-              </p>
-              <div>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 100,
-                    marginTop: 20,
-                  }}
-                >
-                  <Card />
-                </div>
-                <small>Master card</small>
-              </div>
-            </div>
-            <div>
-              <p>
-                Current Balance <br />
-                <small className="pSmall">
-                  {/* N{data.user?.wallets[0]?.balance}.00 */}
-                </small>
-              </p>
-            </div>
-          </div>
-          <p className="text-center">Buy farm units from here</p>
-        </div>
-
-        <div className="col-md-4 col-sm-12">
-          <div className="cardTwo">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingRight: 15,
-              }}
-            >
-              <p className="walletP">
-                {/* {data.user?.wallets[1]?.type} */}
-                <br />
-                WALLET
-              </p>
-              <div>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 100,
-                    marginTop: 20,
-                  }}
-                >
-                  <Card />
-                </div>
-                <small>Master card</small>
-              </div>
-            </div>
-            <div>
-              <p>
-                Current Balance <br />
-                <small className="pSmall">
-                  {/* N{data.user?.wallets[1]?.balance}.00 */}
-                </small>
-              </p>
-            </div>
-          </div>
-          <p className="text-center">Make withdrawals from here</p>
-        </div>
-
-        <div className="col-md-4 col-sm-12">
-          <div className="cardThree">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingRight: 15,
-              }}
-            >
-              <p className="walletP">
-                {/* {data.user?.wallets[2]?.type} */}
-                <br />
-                WALLET
-              </p>
-              <div>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 100,
-                    marginTop: 20,
-                  }}
-                >
-                  <Card />
-                </div>
-                <small>Master card</small>
-              </div>
-            </div>
-            <div>
-              <p>
-                Current Balance <br />
-                <small className="pSmall">
-                  {/* N{data.user?.wallets[2]?.balance}.00 */}
-                </small>
-              </p>
-            </div>
-          </div>
-          <p className="text-center">Save funds here</p>
-        </div>
+        {cards}
       </div>
 
       <div className="walletCards mt-4 row d-flex justify-content-around pb-2">
