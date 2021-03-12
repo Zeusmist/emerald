@@ -97,7 +97,7 @@ function App() {
               <NavBar />
             </Route>
             <Route path="/account">
-              <NavBar />
+              <Account/>
             </Route>
             <Route path="/user/profile">
               <Account/>

@@ -8,13 +8,13 @@ import "../styles/index.css";
 const PaymentMethod = () => {
   return (
     <div className="dashboard__holder">
-      <BackArrow />
-      <div className="dashboard__payment_title">Payment Methods</div>
+      {/* <BackArrow /><br/><br/> */}
+      <div className="dashboard__payment_title">Payment Methods</div><br/><br/>
       <div className="dashboard__payment--option__holder">
         <div className="dashboard__payment--option">
           <Card /> <span>Debit Cards</span>
         </div>
-
+        <br/><br/>
         <div className="dashboard__payment--option">
           <Withdraw /> <span>Withdrawal Settings</span>
         </div>

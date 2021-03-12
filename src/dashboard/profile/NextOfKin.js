@@ -1,14 +1,17 @@
 import React from'react';
+import {useHistory} from "react-router-dom"
+
 
 
 const NextOfKin = ()=>{
+    const history = useHistory();
     return(
         <div style={{ height: "100%" }}>
         
         <div className="row col-md-12 d-flex justify-content-center">
-        <button type="button" className="butGroup col-md-3 col-sm-3">Profile</button>
+        <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/profile")}>Profile</button>
         <button type="button" className="butGroup col-md-3 col-sm-3">Next of kin</button>
-        <button type="button" className="butGroup col-md-3 col-sm-3">Bank Details</button>
+        <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/bankdetails")}>Bank Details</button>
         </div>
 
         <div className="col-md-12 d-flex justify-content-center mt-1">

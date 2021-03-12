@@ -17,7 +17,7 @@ export const signInStart = (
   try {
     dispatch({ type: AUTH_SIGN_IN_START });
     let data = await signInRequest(creds);
-    console.log({data})
+    console.log(data.data.user._id)
     dispatch({
       type: AUTH_SIGN_IN,
       payload: {
@@ -25,6 +25,7 @@ export const signInStart = (
         role: data?.data?.user?.role,
         firstName:data?.data?.user?.firstName,
         lastName: data?.data?.user?.lastName,
+        id:data?.data?.user?._id
       },
     });
 

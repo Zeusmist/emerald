@@ -11,7 +11,7 @@ const history = useHistory();
                 <div className="row col-md-12 d-flex justify-content-center">
                 <button type="button" className="butGroup col-md-3 col-sm-3">Profile</button>
                 <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/nextofkin")}>Next of kin</button>
-                <button type="button" className="butGroup col-md-3 col-sm-3">Bank Details</button>
+                <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/bankdetails")}>Bank Details</button>
                 </div>
                 <div className="col-md-12 d-flex justify-content-center mt-1">
                 <div className="meProfile">

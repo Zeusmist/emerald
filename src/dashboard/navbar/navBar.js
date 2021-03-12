@@ -12,13 +12,16 @@ import Routes from "../../routes/Routes";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux'
 
-const NavBar = ({firstName, lastName}) => {
+const NavBar = ({firstName, lastName, id}) => {
   const [showSide, setShowSide] = useState({
     mainSide: 3,
     mainContent: 9,
     display: "",
     inside: "80%",
   });
+
+
+  console.log('ID:::::::::::::::::', id);
 
   const hideSide = (e) => {
     if (e.target.checked) {
@@ -71,7 +74,7 @@ const NavBar = ({firstName, lastName}) => {
                     </div>
                     <a href="#" style={{ textDecoration: 'none', color: '#efadec' }}>
                         <span className="icon"><i className="fa fa-user-circle-o prof" aria-hidden="true"></i></span>
-                        <span style={{ marginLeft: 5 }} className="dname">Nnamdi</span>
+                        <span style={{ marginLeft: 5 }} className="dname">{firstName}</span>
                     </a>
                 </div>
      
@@ -191,7 +194,8 @@ const NavBar = ({firstName, lastName}) => {
 const mapStateToProps = state=>{
   return{
     firstName: state.auth.firstName,
-    lastName: state.auth.lastName
+    lastName: state.auth.lastName,
+    id: state.auth.id
   }
 }
 

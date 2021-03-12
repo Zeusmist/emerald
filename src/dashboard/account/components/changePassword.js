@@ -12,12 +12,12 @@ import "../styles/index.css";
 const ChangePassword = () => {
   return (
     <div className="dashboard__holder">
-      <BackArrow />
+      {/* <BackArrow /> */}
       <>
         <div className="dashboard__password--title">Change password</div>
         <div className="dashboard__password--sub">
           Add your bank details to recieve money.
-        </div>
+        </div><br/><br/>
       </>
       <Input
         label="Old Password"

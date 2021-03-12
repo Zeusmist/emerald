@@ -1,17 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, Modal} from 'react-bootstrap'
+import {useHistory} from "react-router-dom"
+import { connect } from "react-redux";
+import {getCards} from '../../redux/actions'
 
 
-const BankDetails = ()=>{
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+const BankDetails = ({getCards, token, cards})=>{
+  const history = useHistory();
+    // const [show, setShow] = useState(false);
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+
+
+    console.log('CARDS:::::::::::::::',cards);
+
+    useEffect(()=>{
+       getCards(token)
+
+    },[])
     return(
         <div style={{ height: "100%" }}>
         
         <div className="row col-md-12 d-flex justify-content-center">
-        <button type="button" className="butGroup col-md-3 col-sm-3">Profile</button>
-        <button type="button" className="butGroup col-md-3 col-sm-3">Next of kin</button>
+        <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/profile")}>Profile</button>
+        <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/nextofkin")}>Next of kin</button>
         <button type="button" className="butGroup col-md-3 col-sm-3">Bank Details</button>
         </div>
 
@@ -23,9 +36,9 @@ const BankDetails = ()=>{
         <p className="col-md-12 text-center">Nnamdi Emeka<br/>
         <small className="col-md-12 d-flex justify-content-center">User@gmail.com</small>
         </p>
-        <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-end'}}>
+        {/* <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-end'}}>
             <button className="bankInfo" onClick={handleShow}>Add Bank Details</button>
-        </div>
+        </div> */}
 
         <div className="transaData mt-4">
             <div class="table-responsive">
@@ -96,7 +109,7 @@ const BankDetails = ()=>{
 
 
 
-            <Modal show={show} onHide={handleClose}>
+            {/* <Modal show={show} onHide={handleClose}>
         <Modal.Body className="modalBody">
                 <div>
                     <div className="modalForm p-2">
@@ -137,10 +150,18 @@ const BankDetails = ()=>{
                 </div>
               
         </Modal.Body>
-      </Modal>
+      </Modal> */}
 </div>
     )
 }
 
 
-export default BankDetails;
+const mapStateToProps = (state) => {
+  return {
+    token: state?.auth?.token,
+    data: state?.user?.data,
+    cards: state?.user?.cards
+  };
+};
+
+export default connect(mapStateToProps, { getCards })(BankDetails);

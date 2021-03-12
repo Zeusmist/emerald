@@ -8,6 +8,7 @@ const initialState = {
   lastName: '',
   email: '',
   otp: '',
+  id:''
 };
 
 const AuthReducer = (state = initialState, { type, payload }) => {
@@ -25,7 +26,8 @@ const AuthReducer = (state = initialState, { type, payload }) => {
       token: payload?.token,
       role: payload?.role,
       firstName:payload?.firstName,
-      lastName:payload?.lastName
+      lastName:payload?.lastName,
+      id:payload?.id
     };
 
     case ADD_USER:
@@ -35,6 +37,7 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         lastName: payload.lastName,
         email: payload.email,
         otp: payload.otp,
+        id: payload?.id
       };
 
     default:

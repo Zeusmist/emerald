@@ -12,12 +12,12 @@ import "../styles/index.css";
 const Biometric = () => {
   return (
     <div className="dashboard__holder">
-      <BackArrow />
+      {/* <BackArrow /> */}
       <>
-        <div className="dashboard__password--title">Enable Biometrics</div>
+        <div className="dashboard__password--title">Enable Biometrics</div><br/><br/>
         <div className="dashboard__password--sub">
           Select and configure your biometrics
-        </div>
+        </div><br/><br/>
       </>
       <div className="dashboard__bio--options__holder">
         <div className="dashboard__bio--options__item">
@@ -26,11 +26,11 @@ const Biometric = () => {
             <span>
               Face ID <span className="tint"> enabled </span>
             </span>
-          </div>
+          </div><br/>
           <div className="right">
             <Switch />
           </div>
-        </div>
+        </div><br/><br/>
 
         <div className="dashboard__bio--options__item">
           <div className="left">
@@ -38,11 +38,11 @@ const Biometric = () => {
             <span>
               Touch ID <span className={`tint alt`}> Not found </span>
             </span>
-          </div>
+          </div><br/>
           <div className="right">
             <Switch />
           </div>
-        </div>
+        </div><br/><br/>
 
         <div className="dashboard__bio--options__item">
           <div className="pin">****</div>

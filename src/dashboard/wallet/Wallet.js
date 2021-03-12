@@ -3,17 +3,25 @@ import { Button, Modal } from "react-bootstrap";
 import { Card, Invest, Transact } from "../../ecommerce/svgs";
 import { connect } from "react-redux";
 import { getWallets } from "../../redux/actions";
+import swal from "sweetalert";
 
-const Wallet = ({ token, getWallets, data }) => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+const Wallet = ({ token, getWallets, wallets }) => {
+  const [smallText, setSmallText] = useState('')
+  const [showFund, setShowFund] = useState(false);
+  const handleCloseFund = () => setShowFund(false);
+  const handleShowFund = () => setShowFund(true);
+  const [showTransfer, setShowTransfer] = useState(false);
+  const handleShowTransfer = () => setShowTransfer(true);
+  const handleCloseTransfer = () => setShowTransfer(false);
 
+  const [origin, setOrigin] = useState('')
+const [transferAmount, setTransferAmount] = useState('')
+  const [destination, setDestination] = useState('')
   const [amount, setAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   console.log(
-    ":::::::::::::::::::balance",
-    `${data.user?.wallets[0]?.balance}  ${data.user?.wallets[1]?.balance} ${data.user?.wallets[2]?.balance}`
+    ":::::::::::::::::::balance", wallets
+    //`${data.user?.wallets[0]?.balance}  ${data.user?.wallets[1]?.balance} ${data.user?.wallets[2]?.balance}`
   );
 
   const handleSubmit = async (e) => {
@@ -38,9 +46,43 @@ const Wallet = ({ token, getWallets, data }) => {
         console.error("Error:", error);
       });
 
-    handleClose();
-    //swal("Wallet Funded!", ` With ${amount}`, "success");
+    handleCloseFund();
+    swal("Wallet Funded!", ` With ${amount}`, "success");
   };
+
+
+  const handleSubmitTransfer = async (e)=>{
+    e.preventDefault();
+
+    if(origin === destination) {setSmallText('Origin and Destination must be different!')}
+    
+    await fetch(
+        "https://desolate-anchorage-42140.herokuapp.com/api/v1/users/wallet/transfer",
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ origin: origin, destination: destination,amount:transferAmount }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data?.status);
+          if(data?.status === 'success'){
+            swal("Funds Transfer!", ` With ${transferAmount}`, "success");
+          }else{
+            swal("Funds Transfer Failed!", ` With ${transferAmount}`, "failed");
+          }
+          
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+  
+      handleCloseFund();
+  }
 
   useEffect(() => {
     getWallets(token);
@@ -60,7 +102,7 @@ const Wallet = ({ token, getWallets, data }) => {
               }}
             >
               <p className="walletP">
-                {data.user?.wallets[0]?.type}
+                {/* {data.user?.wallets[0]?.type} */}
                 <br />
                 WALLET
               </p>
@@ -82,7 +124,7 @@ const Wallet = ({ token, getWallets, data }) => {
               <p>
                 Current Balance <br />
                 <small className="pSmall">
-                  N{data.user?.wallets[0]?.balance}.00
+                  {/* N{data.user?.wallets[0]?.balance}.00 */}
                 </small>
               </p>
             </div>
@@ -101,7 +143,7 @@ const Wallet = ({ token, getWallets, data }) => {
               }}
             >
               <p className="walletP">
-                {data.user?.wallets[1]?.type}
+                {/* {data.user?.wallets[1]?.type} */}
                 <br />
                 WALLET
               </p>
@@ -123,7 +165,7 @@ const Wallet = ({ token, getWallets, data }) => {
               <p>
                 Current Balance <br />
                 <small className="pSmall">
-                  N{data.user?.wallets[1]?.balance}.00
+                  {/* N{data.user?.wallets[1]?.balance}.00 */}
                 </small>
               </p>
             </div>
@@ -142,7 +184,7 @@ const Wallet = ({ token, getWallets, data }) => {
               }}
             >
               <p className="walletP">
-                {data.user?.wallets[2]?.type}
+                {/* {data.user?.wallets[2]?.type} */}
                 <br />
                 WALLET
               </p>
@@ -164,7 +206,7 @@ const Wallet = ({ token, getWallets, data }) => {
               <p>
                 Current Balance <br />
                 <small className="pSmall">
-                  N{data.user?.wallets[2]?.balance}.00
+                  {/* N{data.user?.wallets[2]?.balance}.00 */}
                 </small>
               </p>
             </div>
@@ -183,7 +225,7 @@ const Wallet = ({ token, getWallets, data }) => {
                 Fund your Emerald, Payout and Savings wallet here
               </small>
             </p>
-            <button type="button" className="fundBut" onClick={handleShow}>
+            <button type="button" className="fundBut" onClick={handleShowFund}>
               Fund
             </button>
           </div>
@@ -198,7 +240,11 @@ const Wallet = ({ token, getWallets, data }) => {
                 You can transfer funds from one wallet to another seamlessly.
               </small>
             </p>
-            <button type="button" className="fundBut" onClick={handleShow}>
+            <button
+              type="button"
+              className="fundBut"
+              onClick={handleShowTransfer}
+            >
               Transfer
             </button>
           </div>
@@ -226,7 +272,7 @@ const Wallet = ({ token, getWallets, data }) => {
         </div>
       </div>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showFund} onHide={handleCloseFund}>
         <Modal.Body className="modalBody">
           <div>
             <div className="modalForm p-2">
@@ -268,6 +314,79 @@ const Wallet = ({ token, getWallets, data }) => {
           </div>
         </Modal.Body>
       </Modal>
+
+      <Modal show={showTransfer} onHide={handleCloseTransfer}>
+        <Modal.Body className="modalBody">
+          <div>
+            <div className="modalForm p-2">
+              <label for="exampleFormControlInput1">Amount</label>
+              <input
+                type="number"
+                class="form-control"
+                id="exampleFormControlInput1"
+                onChange={(e) => {
+                  setTransferAmount(e.target.value);
+                }}
+              />
+            </div>
+            <div className="modalForm p-2">
+              <select
+                name="cars"
+                id="cars"
+                style={{
+                  width: 300,
+                  padding: 10,
+                  border: ".5px solid grey",
+                  borderRadius: 20,
+                }}
+                onChange={(e) => {
+                  setOrigin(e.target.value);
+                }}
+              >
+                <option>Transfer Origin</option>
+                <option value="Emerald">Emerald</option>
+                <option value="Savings">Savings</option>
+                <option value="Payout">Payout</option>
+              </select>
+            </div>
+            
+            <div className="modalForm p-2">
+            <small style={{color:'red'}}>{smallText}</small>
+              <select
+                name="cars"
+                id="cars"
+                style={{
+                  width: 300,
+                  padding: 10,
+                  border: ".5px solid grey",
+                  borderRadius: 20,
+                }}
+                onChange={(e) => {
+                  setDestination(e.target.value);
+                }}
+              >
+                <option>Transfer Destination</option>
+                <option value="Emerald">Emerald</option>
+                <option value="Savings">Savings</option>
+                <option value="Payout">Payout</option>
+              </select>
+            </div>
+            
+            <div
+              className="modalForm p-2 d-flex justify-content-between"
+              style={{ width: "100%" }}
+            >
+              <Button variant="primary" onClick={handleSubmitTransfer}>
+                Fund Wallet
+              </Button>
+              {/* <label className="switched">
+                    <input type="checkbox" unchecked/>
+                    <span className="slider round"></span>
+                  </label> */}
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
@@ -275,7 +394,7 @@ const Wallet = ({ token, getWallets, data }) => {
 const mapStateToProps = (state) => {
   return {
     token: state?.auth?.token,
-    data: state?.user?.data,
+    wallets: state?.user?.wallets,
   };
 };
 

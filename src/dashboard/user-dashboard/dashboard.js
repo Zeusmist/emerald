@@ -7,7 +7,7 @@ import { Invest, Transact } from "../../ecommerce/svgs";
 import "../navbar/navStyle.css";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
-
+import swal from 'sweetalert';
 import { ProjectCard } from "../../components/cards";
 
 const Dashboard = ({ token }) => {

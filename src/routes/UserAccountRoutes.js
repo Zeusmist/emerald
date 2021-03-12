@@ -10,6 +10,7 @@ import {
   Biometric,
   Profile
 } from "../dashboard/account/components";
+import HistoryInvest from "../dashboard/account/components/investmentHistory";
 // import Profile from "../dashboard/account/components/profile";
 
 const RoutesNew = () => {
@@ -20,7 +21,8 @@ const RoutesNew = () => {
       <Route path ="/user/payment-methods" component={PaymentMethod} />
       <Route path ="/user/bank-details" component={Bank} />
       <Route path ="/user/biometrics" component={Biometric} />
-      {/* <Route path ="/user/investment-history" component={PaymentMethod} /> */}
+      {/* <Route path="/user/history" component={InvestmentHistory}/> */}
+      <Route path ="/user/investment-history" component={HistoryInvest} />
 
     </>
   );

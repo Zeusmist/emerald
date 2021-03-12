@@ -10,9 +10,7 @@ import Profile from '../dashboard/profile/Profile';
 import Transactions from '../dashboard/transaction/Transaction';
 import Wallet from '../dashboard/wallet/Wallet';
 import Dashboard from "../dashboard/user-dashboard/dashboard";
-import Account from "../dashboard/account";
-import Register from '../../src/pages/landing/register';
-
+// import Account from "../dashboard/account";
 
 
 const Routes = ()=>{
@@ -28,7 +26,7 @@ const Routes = ()=>{
             <Route path="/bankdetails" component={BankDetails}/>
             <Route path="/newsletter" component={NewsLetter}/>
             <Route path="/readmore" component={ReadMore}/>
-            <Route  path="/account" component={Account} />
+            {/* <Route  path="/account" component={Account} /> */}
            
             {/* <Route path="" */}
         </>
