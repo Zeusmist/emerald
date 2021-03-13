@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Invest, Transact } from '../../ecommerce/svgs';
 import '../navbar/navStyle.css';
+import {connect} from 'react-redux'
+import {getTransactions} from '../../redux/actions'
 
+const Transactions = ({getTransactions, token})=>{
 
-const Transactions = ()=>{
+    useEffect(()=>{
+        getTransactions(token)
+    }, [])
     return(
         <div className="dashboard col-md-12" style={{height: '100%'}}>
             <div className="tranMenu">
@@ -115,5 +120,9 @@ const Transactions = ()=>{
         </div>
     )
 }
-
-export default Transactions;
+const mapStateToProps = (state) => {
+    return {
+      token: state?.auth?.token,
+    };
+  };
+export default connect(mapStateToProps, {getTransactions})(Transactions);

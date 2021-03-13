@@ -1,4 +1,4 @@
-import { SET_USER_INFO, GET_CARDS, GET_WALLETS } from "../type";
+import { SET_USER_INFO, GET_CARDS, GET_WALLETS, GET_TRANSACTIONS } from "../type";
 
 const initialState = {
   data: {},
@@ -25,6 +25,9 @@ case GET_CARDS:
 ...state,
 cards:payload?.cards
   }
+
+  case GET_TRANSACTIONS:
+    console.log(payload);
 
     default:
       return state;
