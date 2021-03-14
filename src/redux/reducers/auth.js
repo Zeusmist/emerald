@@ -4,11 +4,11 @@ const initialState = {
   token: "",
   role: "",
   loading: false,
-  firstName: '',
-  lastName: '',
-  email: '',
-  otp: '',
-  id:''
+  firstName: "",
+  lastName: "",
+  email: "",
+  otp: "",
+  id: "",
 };
 
 const AuthReducer = (state = initialState, { type, payload }) => {
@@ -20,15 +20,15 @@ const AuthReducer = (state = initialState, { type, payload }) => {
       };
 
     case AUTH_SIGN_IN:
-    return {
-      ...state,
-      loading: false,
-      token: payload?.token,
-      role: payload?.role,
-      firstName:payload?.firstName,
-      lastName:payload?.lastName,
-      id:payload?.id
-    };
+      return {
+        ...state,
+        loading: false,
+        token: payload?.token,
+        role: payload?.role,
+        firstName: payload?.firstName,
+        lastName: payload?.lastName,
+        id: payload?.id,
+      };
 
     case ADD_USER:
       return {
@@ -37,7 +37,7 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         lastName: payload.lastName,
         email: payload.email,
         otp: payload.otp,
-        id: payload?.id
+        id: payload?.id,
       };
 
     default:

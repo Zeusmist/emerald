@@ -89,16 +89,23 @@ const Header = (props) => {
               placeholder="Search"
               aria-label="Search"
             /> */}
-              <button
-                className="btn me-2 login-button"
+              <div
+                className="me-2 button login-button"
                 type="submit"
                 onClick={handleLogin}
               >
                 Log in
-              </button>
-              <button className="btn register-button" type="submit">
-                <Link to="/signup">Register</Link>
-              </button>
+              </div>
+              {/* <div  type="submit"> */}
+
+              <Link
+                to="/signup"
+                className="button register-button"
+                style={{ textDecoration: "none", color: "#fff" }}
+              >
+                Register
+              </Link>
+              {/* </div> */}
             </div>
           </div>
         </div>

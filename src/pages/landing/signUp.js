@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addUsers } from "../../redux/actions";
+import { Spinner } from "react-bootstrap";
 
 const SignUp = ({ addUsers }) => {
   let history = useHistory();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const handleFirstName = (e) => {
     setFirstName(e.target.value);
@@ -33,24 +36,34 @@ const SignUp = ({ addUsers }) => {
   };
   const onSignUp = async (e) => {
     e.preventDefault();
-    addUsers({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword,
-    });
-    history.push("/verify");
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    setIsRegistering(true);
+    addUsers(
+      {
+        firstName: firstName,
+        lastName: lastName,
+        userName: userName,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+      },
+      () => {
+        history.push("/verify");
+        setFirstName("");
+        setLastName("");
+        setUserName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      },
+      () => {
+        setIsRegistering(false);
+      }
+    );
   };
 
   return (
     <div className="container register-form">
-      <div className="form" style={{ marginTop: 100 }}>
+      <div className="form" style={{ padding: "2% 0" }}>
         <div className="note">
           <p>
             Welcome to Emerald Farm, please do sign up to enjoy all the
@@ -59,7 +72,7 @@ const SignUp = ({ addUsers }) => {
         </div>
 
         <div className="form-content">
-          <div className="row">
+          <form className="row">
             <div className="col-md-6">
               <div className="form-group">
                 <input
@@ -79,10 +92,19 @@ const SignUp = ({ addUsers }) => {
                   onChange={handleLastName}
                 />
               </div>
-
               <div className="form-group">
                 <input
                   type="text"
+                  className="form-control"
+                  placeholder="Username *"
+                  required="required"
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <input
+                  type="email"
                   className="form-control"
                   placeholder="Your Email *"
                   required="required"
@@ -93,7 +115,7 @@ const SignUp = ({ addUsers }) => {
             <div className="col-md-6">
               <div className="form-group">
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   placeholder="Your Password *"
                   required="required"
@@ -103,7 +125,7 @@ const SignUp = ({ addUsers }) => {
 
               <div className="form-group">
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   placeholder="Confirm Password *"
                   required="required"
@@ -111,9 +133,15 @@ const SignUp = ({ addUsers }) => {
                 />
               </div>
             </div>
-          </div>
-          <button type="button" className="btnSubmit" onClick={onSignUp}>
-            Register
+          </form>
+          <button type="submit" className="btnSubmit" onClick={onSignUp}>
+            {isRegistering ? (
+              <Spinner animation="border" role="status" size="sm">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            ) : (
+              "Register"
+            )}
           </button>
         </div>
       </div>

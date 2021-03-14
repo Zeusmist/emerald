@@ -4,6 +4,7 @@ import { Card, Invest, Transact } from "../../ecommerce/svgs";
 import { connect } from "react-redux";
 import { getWallets } from "../../redux/actions";
 import swal from "sweetalert";
+import { baseUrl } from "../../config";
 
 const Wallet = ({ token, getWallets, wallets = [] }) => {
   const [smallText, setSmallText] = useState("");
@@ -68,17 +69,14 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("yes");
-    await fetch(
-      "https://desolate-anchorage-42140.herokuapp.com/api/v1/users/wallet/fundWallet",
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount: amount, paymentMethod: paymentMethod }),
-      }
-    )
+    await fetch(`${baseUrl}/api/v1/users/wallet/fundWallet`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: amount, paymentMethod: paymentMethod }),
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
@@ -97,21 +95,18 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
     if (origin === destination) {
       swal("Origin must be different from Destination", "failed");
     } else {
-      await fetch(
-        "https://desolate-anchorage-42140.herokuapp.com/api/v1/users/wallet/transfer",
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            origin: origin,
-            destination: destination,
-            amount: transferAmount,
-          }),
-        }
-      )
+      await fetch(`${baseUrl}/api/v1/users/wallet/transfer`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          origin: origin,
+          destination: destination,
+          amount: transferAmount,
+        }),
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data?.status);

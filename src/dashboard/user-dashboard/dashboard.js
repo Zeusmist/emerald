@@ -6,12 +6,17 @@ import { FundModal, Graph, CompleteReg } from "./svg";
 import { Invest, Transact } from "../../ecommerce/svgs";
 import "../navbar/navStyle.css";
 import { connect } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
-import swal from 'sweetalert';
+import { Button, Modal, Spinner } from "react-bootstrap";
+import swal from "sweetalert";
 import { ProjectCard } from "../../components/cards";
+import { baseUrl } from "../../config";
+import { toast } from "react-toastify";
+
+const acceptedPaymentMethods = ["Mastercard", "Visa", "Verve"];
 
 const Dashboard = ({ token }) => {
   const [show, setShow] = useState(false);
+  const [isFunding, setIsFunding] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -19,31 +24,31 @@ const Dashboard = ({ token }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
   console.log("TOKEN::::::::::::::::::", token);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("yes");
-    await fetch(
-      "https://desolate-anchorage-42140.herokuapp.com/api/v1/users/wallet/fundWallet",
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount: amount, paymentMethod: paymentMethod }),
-      }
-    )
+    setIsFunding(true);
+    await fetch(`${baseUrl}/api/v1/users/wallet/fundWallet`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount, paymentMethod }),
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        if (data?.status == "fail") {
+          toast.error(data.message);
+          return;
+        }
+        handleClose();
+        swal("Wallet Funded!", ` With ${amount}`, "success");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-
-    handleClose();
-    swal("Wallet Funded!", ` With ${amount}`, "success");
+    setIsFunding(false);
   };
 
   return (
@@ -125,43 +130,48 @@ const Dashboard = ({ token }) => {
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Body className="modalBody">
-            <div>
-              <div className="modalForm p-2">
-                <label for="exampleFormControlInput1">Amount</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  onChange={(e) => {
-                    setAmount(e.target.value);
-                  }}
-                />
-              </div>
+            <div className="p-2">
+              <label for="exampleFormControlInput1">Amount</label>
+              <input
+                type="number"
+                class="form-control"
+                id="exampleFormControlInput1"
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                }}
+                placeholder="1000000"
+              />
+            </div>
 
-              <div className="modalForm p-2">
-                <label for="exampleFormControlInput1">Payment Method</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  onChange={(e) => {
-                    setPaymentMethod(e.target.value);
-                  }}
-                />
-              </div>
+            <div className="modalForm p-2">
+              <label for="exampleFormControlInput1">Payment Method</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                onChange={(e) => {
+                  setPaymentMethod(e.target.value);
+                }}
+              />
+            </div>
 
-              <div
-                className="modalForm p-2 d-flex justify-content-between"
-                style={{ width: "100%" }}
-              >
-                <Button variant="primary" onClick={handleSubmit}>
-                  Fund Wallet
-                </Button>
-                {/* <label className="switched">
+            <div
+              className="modalForm p-2 d-flex justify-content-between"
+              style={{ width: "100%" }}
+            >
+              <Button variant="primary" onClick={handleSubmit}>
+                {isFunding ? (
+                  <Spinner animation="border" role="status" size="sm">
+                    <span className="sr-only">Loading...</span>
+                  </Spinner>
+                ) : (
+                  "Fund Wallet"
+                )}
+              </Button>
+              {/* <label className="switched">
                     <input type="checkbox" unchecked/>
                     <span className="slider round"></span>
                   </label> */}
-              </div>
             </div>
           </Modal.Body>
         </Modal>
