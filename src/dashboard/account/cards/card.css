@@ -1,0 +1,37 @@
+.cardRoot{
+    background: #FFFFFF;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+border-radius: 5px;
+width:421px;
+padding: 50px 30px 45px 50px;
+margin: 17px 7px;
+cursor: pointer;
+
+}
+
+
+.CardTitle{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    color: #0E4944;
+    
+}
+
+.subText{
+    font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 14px;
+display: flex;
+align-items: center;
+
+color: #41EC7B;
+
+}

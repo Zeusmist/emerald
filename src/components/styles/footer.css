@@ -1,0 +1,65 @@
+.emerald_footer {
+  height: auto;
+  bottom: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  background: #0e4944;
+  margin-top: 5px;
+}
+@media screen and (max-width: 768px) {
+  .emerald_footer {
+    flex-direction: column;
+  }
+}
+.footer_section {
+  flex: 1;
+  padding: 0.2em;
+}
+
+.footer_listing {
+  list-style-type: none;
+}
+
+@media screen and (max-width: 768px) {
+  .footer_listing {
+    margin: auto;
+    width: fit-content;
+    padding-left: 0;
+  }
+}
+.list {
+  padding-top: 0.6em;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  /* text-align: left; */
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+@media screen and (max-width: 768px) {
+  .list {
+    text-align: center;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.google {
+  text-decoration: underline;
+}
+p {
+  padding: 1.25em;
+}
+span {
+  font-size: 1.2em;
+  color: #41ec7b;
+  text-transform: capitalize;
+}

@@ -1,0 +1,152 @@
+.card {
+  /* width: clamp(20em, 30%, 30em); */
+  background: rgba(65, 236, 123, 0.2);
+  padding: 2em 3em;
+  font-family: "Bebas Neue", cursive;
+  border: none;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 767px) {
+  .card {
+    margin: 10px auto;
+  }
+}
+
+.imageHolder {
+  width: 9.8em;
+  height: 9.8em;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  padding: 2em;
+}
+
+.image {
+  height: 100%;
+}
+
+.title {
+  font-size: 35px;
+  line-height: 42px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  font-weight: 500;
+  line-height: 42px;
+}
+@media screen and (max-width: 768px) {
+  .title {
+    margin: auto;
+    text-align: center;
+    font-weight: 500;
+    font-size: 35px;
+  }
+}
+
+.top {
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.top__main {
+  display: flex;
+  align-items: center;
+  color: #000000;
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 42px;
+}
+
+.top__sub {
+  display: flex;
+  align-items: center;
+  color: #2b5f5a;
+  margin-left: 0.5rem;
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 42px;
+}
+
+.middle {
+  display: flex;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+}
+
+.middle__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.middleMain {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 43px;
+  display: flex;
+  align-items: center;
+  color: #0a403b;
+}
+
+.top__roi_sub {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
+  margin-top: 7%;
+  margin-left: 0.5%;
+
+  color: #0e4944;
+}
+
+.number {
+  display: flex;
+  align-items: center;
+  font-size: 36px;
+  line-height: 43px;
+}
+
+.month__number {
+  font-family: Bebas Neue;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 43px;
+  display: flex;
+  align-items: center;
+  color: #0a403b;
+}
+
+.month__number__light {
+  color: rgba(10, 64, 59, 0.3);
+}
+
+.card_underText {
+  display: block;
+  font-weight: 300;
+}
+
+/* .bottom {
+} */
+
+.bar {
+  background: rgba(65, 236, 123, 0.3);
+  border-radius: 5.5px;
+  width: 100%;
+  height: 0.3rem;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.slider {
+  width: 12em;
+  height: 100%;
+  background: #0e4944;
+}

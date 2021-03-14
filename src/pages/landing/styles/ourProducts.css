@@ -1,0 +1,35 @@
+.title {
+  font-weight: 500;
+  font-size: 4rem;
+  line-height: 88px;
+  display: flex;
+  align-items: center;
+  color: #0e4944;
+  margin-top: 35px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.row {
+  justify-content: space-around;
+}
+
+.col-lg {
+  width: auto;
+}
+
+/* .cardHolder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width:767px){
+  .cardHolder{
+    flex-direction:column;
+  }
+} */
+
+.products {
+  margin-bottom: 30px;
+}

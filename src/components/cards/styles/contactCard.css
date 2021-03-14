@@ -1,0 +1,40 @@
+.contactCard {
+  background: #0e4944;
+  box-sizing: border-box;
+  /* width: clamp(30rem, 49%, 49%); */
+  border: none;
+  color: #fff;
+  padding: 4rem 5rem;
+}
+
+.contactCard.alt {
+  background: #41ec7b;
+  color: #0e4944;
+}
+
+.contactCard__title {
+  font-size: 3rem;
+  margin-bottom: 0.1rem;
+  font-family: Montserrat;
+}
+
+.contactCard__sub {
+  font-size: 1.4rem;
+  /* width: clamp(300px, 400px, 80%); */
+  margin-bottom: 0.3rem;
+  font-family: "Nanum Gothic", sans-serif;
+}
+
+.contactCard__button {
+  padding: 1rem 1.2rem;
+  border-radius: 0.3rem;
+  border: 1px solid #41ec7b;
+  width: fit-content;
+  margin-top: 20px;
+}
+
+.contactCard__button.alt {
+  color: #0e4944;
+  border: none;
+  background-color: #fff;
+}

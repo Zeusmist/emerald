@@ -1,0 +1,92 @@
+a,
+button {
+  background: 0 0;
+}
+
+*,
+input[type="checkbox"] {
+  box-sizing: border-box;
+}
+
+.cookies-position {
+  visibility: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+.note {
+  text-align: center;
+  /* height: 80px; */
+  background: -webkit-linear-gradient(left, #cbedd7, #4a9618);
+  color: #fff;
+  font-weight: bold;
+  /* line-height: 80px; */
+}
+.form-content {
+  padding: 5%;
+  border: 1px solid #ced4da;
+  margin-bottom: 2%;
+}
+.form-control {
+  border-radius: 1.5rem;
+}
+.btnSubmit {
+  border: none;
+  border-radius: 1.5rem;
+  padding: 1%;
+  width: 20%;
+  cursor: pointer;
+  background: #13582c;
+  color: #fff;
+}
+
+.card {
+  width: 350px;
+  padding: 10px;
+  border-radius: 20px;
+  background: #fff;
+  border: none;
+  height: 350px;
+  position: relative;
+}
+
+.container {
+  height: 100vh;
+}
+
+body {
+  background: #eee;
+}
+
+.mobile-text {
+  color: #989696b8;
+  font-size: 15px;
+}
+
+.form-control {
+  margin-right: 12px;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #ff8880;
+  outline: 0;
+  box-shadow: none;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.verifyInput {
+  width: 100px !important;
+  border: none;
+  padding: 5px;
+  margin-left: 3px;
+  border-radius: 5px;
+}
