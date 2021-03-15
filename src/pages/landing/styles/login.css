@@ -39,7 +39,8 @@ form {
   font-weight: normal;
   font-size: 28px;
   line-height: 34px;
-  color: #0e4944;
+  /* color: #0e4944; */
+  color: #fff;
   text-align: center;
 }
 
@@ -100,6 +101,10 @@ form {
 
 .loginCardExtension > * {
   font-size: 14px;
+}
+
+.cancelLogin {
+  font-size: 20px;
 }
 
 .registerLink {

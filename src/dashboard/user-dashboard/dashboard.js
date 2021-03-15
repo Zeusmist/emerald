@@ -11,14 +11,14 @@ import swal from "sweetalert";
 import { ProjectCard } from "../../components/cards";
 import { baseUrl } from "../../config";
 import { toast } from "react-toastify";
+import { toggleModal } from "../../redux/actions";
 
-const acceptedPaymentMethods = ["Mastercard", "Visa", "Verve"];
-
-const Dashboard = ({ token }) => {
-  const [show, setShow] = useState(false);
+const Dashboard = ({ token, toggleModal }) => {
+  // const [show, setShow] = useState(false);
   const [isFunding, setIsFunding] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+  const handleShow = () => toggleModal({ modal: "userboard", isOpen: true });
 
   const [amount, setAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -127,7 +127,7 @@ const Dashboard = ({ token }) => {
             </div>
           </div>
         </div>
-
+        {/* 
         <Modal show={show} onHide={handleClose}>
           <Modal.Body className="modalBody">
             <div className="p-2">
@@ -168,13 +168,9 @@ const Dashboard = ({ token }) => {
                   "Fund Wallet"
                 )}
               </Button>
-              {/* <label className="switched">
-                    <input type="checkbox" unchecked/>
-                    <span className="slider round"></span>
-                  </label> */}
             </div>
           </Modal.Body>
-        </Modal>
+        </Modal> */}
       </div>
     </>
   );
@@ -186,4 +182,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Dashboard);
+export default connect(mapStateToProps, { toggleModal })(Dashboard);

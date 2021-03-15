@@ -24,6 +24,7 @@ export const signInStart = (
       payload: {
         token: data?.token,
         role: data?.data?.user?.role,
+        email: data?.data?.user?.email,
         firstName: data?.data?.user?.firstName,
         lastName: data?.data?.user?.lastName,
         id: data?.data?.user?._id,

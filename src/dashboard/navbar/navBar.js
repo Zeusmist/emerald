@@ -1,7 +1,7 @@
 /* eslint-disable */
 /* eslint-disable */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import Dashboard from "../user-dashboard/dashboard";
 // import Account from "../account";
 // import Message from '../message';
@@ -11,9 +11,31 @@ import "./navStyle.css";
 import Routes from "../../routes/Routes";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getWallets } from "../../redux/actions";
+import { getWallets, toggleModal } from "../../redux/actions";
+import { Modal } from "react-bootstrap";
+import FundWallet from "../../components/payments/FundWallet";
+import FlutterWave from "../../components/payments/FlutterWave";
 
-const NavBar = ({ firstName, lastName, id, getWallets }) => {
+const sideMenuOptions = [
+  { name: "Dashboard", href: "/dashboard", iconClass: "fa-home" },
+  { name: "Messages", href: "/message", iconClass: "fa-envelope" },
+  { name: "Farm List", href: "/farmlist", iconClass: "fa-list" },
+  { name: "Emerald Bank", href: "/wallet", iconClass: "fa-industry" },
+  { name: "Wallet", href: "/wallet", iconClass: "fa-credit-card" },
+  { name: "Settings", href: "/profile", iconClass: "fa-cog" },
+  { name: "Newsletter", href: "/newsletter", iconClass: "fa-map-signs" },
+];
+
+const NavBar = ({
+  firstName,
+  lastName,
+  id,
+  token,
+  getWallets,
+  wallets = [],
+  modalIsOpen,
+  toggleModal,
+}) => {
   const [showSide, setShowSide] = useState({
     mainSide: 3,
     mainContent: 9,
@@ -21,6 +43,11 @@ const NavBar = ({ firstName, lastName, id, getWallets }) => {
     inside: "80%",
   });
 
+  useEffect(() => {
+    getWallets(token);
+  }, []);
+
+  console.log({ wallets });
   console.log("ID:::::::::::::::::", id);
 
   const hideSide = (e) => {
@@ -42,12 +69,20 @@ const NavBar = ({ firstName, lastName, id, getWallets }) => {
       }));
     }
   };
+
+  const closeModal = () => {
+    toggleModal({ modal: "userboard", isOpen: false });
+  };
   return (
     <div>
       <div className="myNav row m-0">
         <div
           className="col-md-3 col-sm-12 d-flex justify-content-around"
-          style={{ backgroundColor: "#ffffff", height: "80px" }}
+          style={{
+            backgroundColor: "#ffffff",
+            height: "80px",
+            alignItems: "center",
+          }}
         >
           <label className="switch">
             <input
@@ -55,29 +90,42 @@ const NavBar = ({ firstName, lastName, id, getWallets }) => {
               style={{ outline: "none" }}
               onClick={hideSide}
             />
-            <span className="toggleButton"></span>
+            <span
+              className={`toggleButton ${
+                showSide.mainSide == 1 ? " closed" : " opened"
+              }`}
+            ></span>
           </label>
 
-          <p className="logo" style={{ marginTop: 10 }}>
+          <h5 className="logo" style={{ margin: 0 }}>
             Dashboard
-          </p>
+          </h5>
         </div>
         <div
-          className="col-md-9 col-sm-12 d-flex justify-content-between pt-4 readMe"
-          style={{ backgroundColor: "#ffffff", height: "80px" }}
+          className="col-md-9 col-sm-12 d-flex justify-content-between readMe"
+          style={{
+            backgroundColor: "#ffffff",
+            height: "80px",
+            alignItems: "center",
+          }}
         >
           <div class="search">
             <i class="fa fa-search icon2"></i>
             <input type="text" className="input-field" />
           </div>
           <div className="col-md-5 navInfo">
-            <small>Emerald Wallet: N25,000</small>
-
-            <small>Payout Wallet: N25,000</small>
-
-            <small>Savings Wallet: N25,000</small>
+            {wallets.map((wallet, i) => (
+              <small key={i}>
+                {wallet?.type} wallet:{" "}
+                <div style={{ fontWeight: "bold" }}>₦{wallet?.balance}</div>
+              </small>
+            ))}
           </div>
-          <a href="#" style={{ textDecoration: "none", color: "#efadec" }}>
+          <a
+            href="#"
+            className="user"
+            style={{ textDecoration: "none", color: "#efadec" }}
+          >
             <span className="icon">
               <i className="fa fa-user-circle-o prof" aria-hidden="true"></i>
             </span>
@@ -111,88 +159,38 @@ const NavBar = ({ firstName, lastName, id, getWallets }) => {
               </small>
             </Link>
             <div className="navList">
-              <ul>
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-home" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/dashboard">
-                      <span className="titleList">Dashboard</span>
+              <ul style={{ padding: 0 }}>
+                {sideMenuOptions.map((option, i) => (
+                  <li key={i}>
+                    <Link
+                      to={option.href}
+                      style={{
+                        justifyContent:
+                          showSide.mainSide == 1 ? "center" : "flex-start",
+                      }}
+                    >
+                      <span
+                        className="icon"
+                        style={{
+                          minWidth: showSide.mainSide == 1 ? "auto" : "60px",
+                        }}
+                      >
+                        <i
+                          className={`fa ${option.iconClass}`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                      <span
+                        className="titleList"
+                        style={{
+                          display: showSide.mainSide == 1 ? "none" : "inherit",
+                        }}
+                      >
+                        {option.name}
+                      </span>
                     </Link>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-envelope" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/message">
-                      <span className="titleList">Messages</span>
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-list" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/farmlist">
-                      <span className="titleList">Farm List</span>
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-industry" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/wallet">
-                      <span className="titleList">Emerald Bank</span>
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-money" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/transaction">
-                      <span className="titleList">Transactions</span>
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-credit-card" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/wallet">
-                      <span className="titleList">Wallet</span>
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-cog" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/profile">
-                      <span className="titleList">Settings</span>
-                    </Link>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span className="icon">
-                      <i className="fa fa-map-signs" aria-hidden="true"></i>
-                    </span>
-                    <Link to="/newsletter">
-                      <span className="titleList">Newsletter</span>
-                    </Link>
-                  </a>
-                </li>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -200,6 +198,18 @@ const NavBar = ({ firstName, lastName, id, getWallets }) => {
 
         <div className={`content col-md-${showSide.mainContent} col-sm-12 p-3`}>
           <Routes />
+          <Modal show={modalIsOpen} onHide={closeModal}>
+            <Modal.Body className="modalBody">
+              <FundWallet />
+            </Modal.Body>
+          </Modal>
+          {modalIsOpen && (
+            <FlutterWave
+              amount={1000}
+              title="aaaa"
+              description="dndmd dsnfndd"
+            />
+          )}
         </div>
       </div>
     </div>
@@ -207,11 +217,18 @@ const NavBar = ({ firstName, lastName, id, getWallets }) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log({ modals: state.modals });
   return {
     firstName: state.auth.firstName,
     lastName: state.auth.lastName,
     id: state.auth.id,
+    token: state.auth.token,
+    wallets: state?.user?.wallets,
+    modalIsOpen: state?.modals?.userboard?.isOpen,
+    // paymentAmount:,
+    // paymentTitle:,
+    // paymentDescription:,
   };
 };
 
-export default connect(mapStateToProps, { getWallets })(NavBar);
+export default connect(mapStateToProps, { getWallets, toggleModal })(NavBar);

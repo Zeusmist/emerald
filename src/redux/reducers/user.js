@@ -1,9 +1,14 @@
-import { SET_USER_INFO, GET_CARDS, GET_WALLETS } from "../type";
+import {
+  SET_USER_INFO,
+  GET_CARDS,
+  GET_WALLETS,
+  GET_TRANSACTIONS,
+} from "../type";
 
 const initialState = {
   data: {},
-  cards:[],
-  wallets:[]
+  cards: [],
+  wallets: [],
 };
 
 const UserReducer = (state = initialState, { type, payload }) => {
@@ -13,19 +18,20 @@ const UserReducer = (state = initialState, { type, payload }) => {
     //     ...state,
     //     data: payload,
     //   };
-case GET_WALLETS:
-  return{
-    ...state,
-    wallets: payload?.wallet
-  }
+    case GET_WALLETS:
+      return {
+        ...state,
+        wallets: payload?.wallet,
+      };
 
+    case GET_CARDS:
+      return {
+        ...state,
+        cards: payload?.cards,
+      };
 
-case GET_CARDS:
-  return{
-...state,
-cards:payload?.cards
-  }
-
+    case GET_TRANSACTIONS:
+      console.log(payload);
     default:
       return state;
   }

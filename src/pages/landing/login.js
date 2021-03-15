@@ -43,14 +43,14 @@ const Login = ({ closeModal, signInStart, auth }) => {
         <form method="#">
           <div>
             <div className="inputLabel">
-              <div className="inputLabelText">Username</div>
+              <div className="inputLabelText">Email</div>
               <UsernameIcon className="inputLabelImg" />
             </div>
             <input
               className="inputField"
               type="text"
               name="email"
-              placeholder="johndoe"
+              placeholder="johndoe@email.com"
               required="required"
               value={creds?.username}
               onChange={handleChange}

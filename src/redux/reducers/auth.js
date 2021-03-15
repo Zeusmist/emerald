@@ -25,6 +25,7 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         loading: false,
         token: payload?.token,
         role: payload?.role,
+        email: payload?.email,
         firstName: payload?.firstName,
         lastName: payload?.lastName,
         id: payload?.id,

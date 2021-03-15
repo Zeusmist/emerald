@@ -53,6 +53,6 @@
 }
 
 .register-button:hover {
-  background: green;
+  background-color: lightgreen;
   font-size: 18px;
 }
