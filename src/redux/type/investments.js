@@ -1,0 +1,1 @@
+export const SET_INVESTMENTS = "SET_INVESTMENTS";

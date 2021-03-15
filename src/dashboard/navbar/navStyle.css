@@ -348,19 +348,19 @@ th {
   /* flex-direction: ; */
 }
 
-.totalInvestment {
-  background-color: #ffffff;
+.totalInvestment,
+.totalInvestment2 {
   width: 100%;
   border-radius: 8px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+.totalInvestment {
+  background-color: #ffffff;
 }
 .totalInvestment2 {
   background: #0e4944;
-  width: 100%;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: row;
 }
 .tInvest {
   background: #e7ffef;
@@ -371,37 +371,34 @@ th {
   align-items: center;
   justify-content: center;
 }
-.pInvest {
-  font-family: Century Gothic;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 20px;
-  color: #0e4944;
-}
-
+.pInvest,
 .pInvest2 {
   font-family: Century Gothic;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 20px;
+}
+.pInvest {
+  color: #0e4944;
+}
+
+.pInvest2 {
   color: #41ec7b;
 }
-.pMoney {
-  font-family: Bebas Neue;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 30px;
-  line-height: 18px;
-  color: rgba(10, 64, 59, 0.3);
-}
+.pMoney,
 .pMoney2 {
   font-family: Bebas Neue;
   font-style: normal;
   font-weight: normal;
   font-size: 30px;
   line-height: 18px;
+  padding: 1.25em 1em;
+}
+.pMoney {
+  color: rgba(10, 64, 59, 0.3);
+}
+.pMoney2 {
   color: rgba(250, 255, 255, 0.3);
 }
 /* profile session */

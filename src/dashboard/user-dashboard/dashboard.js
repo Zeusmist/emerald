@@ -12,6 +12,7 @@ import { ProjectCard } from "../../components/cards";
 import { baseUrl } from "../../config";
 import { toast } from "react-toastify";
 import { toggleModal } from "../../redux/actions";
+import InvestmentsSummary from "../../components/cards/InvestmentsSummary.js";
 
 const Dashboard = ({ token, toggleModal }) => {
   // const [show, setShow] = useState(false);
@@ -105,7 +106,8 @@ const Dashboard = ({ token, toggleModal }) => {
           </div>
         </div>
 
-        <div className="dashTrans mt-4">
+        <InvestmentsSummary />
+        {/* <div className="dashTrans mt-4">
           <div className="row m-0">
             <div className="col-md-6 col-sm-12">
               <div className="totalInvestment p-3">
@@ -126,7 +128,7 @@ const Dashboard = ({ token, toggleModal }) => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* 
         <Modal show={show} onHide={handleClose}>
           <Modal.Body className="modalBody">

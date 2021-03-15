@@ -62,7 +62,7 @@ class FarmList extends PureComponent {
                   <th scope="col">Title </th>
                   <th scope="col">Price per unit</th>
                   <th scope="col">Status</th>
-                  {/* <th scope="col">Interest</th> */}
+                  <th scope="col">Interest</th>
                   <th scope="col">Maturity</th>
                   <th scope="col">Avaliable Units</th>
                   <th scope="col">Actions</th>
@@ -80,7 +80,7 @@ class FarmList extends PureComponent {
                           .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                       </td>
                       <td>{farm?.status}</td>
-                      {/* <td>@mdo</td> */}
+                      <td>{farm?.return}%</td>
                       <td>{farm?.duration} days</td>
                       <td>{farm?.no_of_available_units} units</td>
                       <td>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { Card, Invest, Transact } from "../../ecommerce/svgs";
+import { Card } from "../../ecommerce/svgs";
 import { connect } from "react-redux";
-import { getWallets } from "../../redux/actions";
+import { getWallets, transferFunds } from "../../redux/actions";
 import swal from "sweetalert";
 import { baseUrl } from "../../config";
+import InvestmentsSummary from "../../components/cards/InvestmentsSummary.js";
 
-const Wallet = ({ token, getWallets, wallets = [] }) => {
+const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
   const [smallText, setSmallText] = useState("");
   const [showFund, setShowFund] = useState(false);
   const handleCloseFund = () => setShowFund(false);
@@ -57,7 +58,7 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
           <div>
             <p>
               Current Balance <br />
-              <small className="pSmall">N{card?.balance}.00</small>
+              <small className="pSmall">₦{card?.balance}.00</small>
             </p>
           </div>
         </div>
@@ -92,33 +93,16 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
   const handleSubmitTransfer = async (e) => {
     e.preventDefault();
 
-    if (origin === destination) {
-      swal("Origin must be different from Destination", "failed");
+    if (origin === destination || origin == "" || destination == "") {
+      swal(
+        "Origin must be valid and must be different from Destination",
+        "failed"
+      );
     } else {
-      await fetch(`${baseUrl}/api/v1/users/wallet/transfer`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          origin: origin,
-          destination: destination,
-          amount: transferAmount,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data?.status);
-          if (data?.status === "success") {
-            swal("Funds Transfer!", ` With ${transferAmount}`, "success");
-          } else {
-            swal("Funds Transfer Failed!", ` With ${transferAmount}`, "failed");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      transferFunds({
+        token,
+        transferData: { origin, destination, amount: transferAmount },
+      });
     }
 
     handleCloseFund();
@@ -170,27 +154,7 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
         </div>
       </div>
 
-      <div className="row m-0 mt-3">
-        <div className="col-md-6 col-sm-12">
-          <div className="totalInvestment p-3">
-            <div className="tInvest">
-              <Transact />
-            </div>
-            <p className="pInvest">Total investments</p>
-            <p className="pMoney">₦89,000.00</p>
-          </div>
-        </div>
-        <div className="col-md-6 col-sm-12">
-          <div className="totalInvestment2 p-3">
-            <div className="tInvest">
-              <Invest />
-            </div>
-            <p className="pInvest2">Active investments</p>
-            <p className="pMoney2">₦89,000.00</p>
-          </div>
-        </div>
-      </div>
-
+      <InvestmentsSummary />
       <Modal show={showFund} onHide={handleCloseFund}>
         <Modal.Body className="modalBody">
           <div>
@@ -262,7 +226,7 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
                   setOrigin(e.target.value);
                 }}
               >
-                <option>Transfer Origin</option>
+                <option value="">Transfer Origin</option>
                 <option value="Emerald">Emerald</option>
                 <option value="Savings">Savings</option>
                 <option value="Payout">Payout</option>
@@ -284,7 +248,7 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
                   setDestination(e.target.value);
                 }}
               >
-                <option>Transfer Destination</option>
+                <option value="">Transfer Destination</option>
                 <option value="Emerald">Emerald</option>
                 <option value="Savings">Savings</option>
                 <option value="Payout">Payout</option>
@@ -296,7 +260,7 @@ const Wallet = ({ token, getWallets, wallets = [] }) => {
               style={{ width: "100%" }}
             >
               <Button variant="primary" onClick={handleSubmitTransfer}>
-                Fund Wallet
+                Transfer
               </Button>
               {/* <label className="switched">
                     <input type="checkbox" unchecked/>
@@ -317,4 +281,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getWallets })(Wallet);
+const mapDispatch = {
+  getWallets,
+  transferFunds,
+};
+
+export default connect(mapStateToProps, mapDispatch)(Wallet);

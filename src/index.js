@@ -10,6 +10,7 @@ import {
   AdminReducer,
   AuthReducer,
   ModalsReducer,
+  MessagesReducer,
 } from "./redux/reducers";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   user: UserReducer,
   admin: AdminReducer,
   modals: ModalsReducer,
+  messages: MessagesReducer,
 });
 
 const persistConfig = {
