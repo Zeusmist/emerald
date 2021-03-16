@@ -1,15 +1,27 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
+import Spinner from "../components/Spinner";
 import { setMessages } from "../redux/actions";
 import "./navbar/navStyle.css";
 
 class Message extends PureComponent {
+  state = {};
+
   componentDidMount() {
-    const { setMessages, token } = this.props;
-    setMessages({ token });
+    const { messages, setMessages, token } = this.props;
+    console.log("MESSAGES EMPTY", messages);
+    if (messages.length == 0) {
+      this.setState({ isFetchingMessages: true }, async () => {
+        console.log("SETTING MESAGES");
+        await setMessages({ token });
+        this.setState({ isFetchingMessages: false });
+      });
+    }
   }
 
   render() {
+    const { messages, dates } = this.props;
+    const { isFetchingMessages } = this.state;
     return (
       <div className="col-md-12" style={{ height: "100%" }}>
         <div className="col-md-12">
@@ -18,51 +30,29 @@ class Message extends PureComponent {
         </div>
 
         <div className="messageList mt-4 p-4">
-          <div className="col-md-12">
-            <div className="col-md-12 col-sm-12 messageBut">
-              <p className="text-center">Monday - 18 | 01 | 20</p>
+          {isFetchingMessages ? (
+            <Spinner size="lg" />
+          ) : (
+            <div>
+              {messages.length == 0 && <div>No messages yet</div>}
+              {dates.map((date, i) => (
+                <div>
+                  <div className="col-md-12">
+                    <div className="col-md-12 col-sm-12 messageBut">
+                      {/* <p className="text-center">Monday - 18 | 01 | 20</p> */}
+                      <p className="text-center">{date}</p>
+                    </div>
+                  </div>
+                  <ul style={{ padding: 15 }}>
+                    {messages.map((message) => (
+                      <li>{message}</li>
+                    ))}
+                  </ul>
+                  <hr></hr>
+                </div>
+              ))}
             </div>
-          </div>
-          <ul style={{ padding: 15 }}>
-            <li>
-              1500s, when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. It has survived not only five
-              centuries, but also the leap into electronic
-            </li>
-            <li>
-              1500s, when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. It has survived not only five
-              centuries, but also the leap into electronic
-            </li>
-            <li>
-              1500s, when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. It has survived not only five
-              centuries, but also the leap into electronic
-            </li>
-          </ul>
-          <hr></hr>
-          <div className="col-md-12">
-            <div className="col-md-12 col-sm-12 messageBut">
-              <p className="text-center">Monday - 17 | 01 | 20</p>
-            </div>
-          </div>
-          <ul>
-            <li>
-              1500s, when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. It has survived not only five
-              centuries, but also the leap into electronic
-            </li>
-            <li>
-              1500s, when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. It has survived not only five
-              centuries, but also the leap into electronic
-            </li>
-            <li>
-              1500s, when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. It has survived not only five
-              centuries, but also the leap into electronic
-            </li>
-          </ul>
+          )}
         </div>
       </div>
     );
@@ -72,6 +62,14 @@ class Message extends PureComponent {
 const mapState = (state) => {
   return {
     token: state?.auth?.token,
+    // dates: ["Monday - 18 | 01 | 20"],
+    // messages: [
+    //   `1500s, when an unknown printer took a galley of type and scrambled
+    // it to make a type specimen book. It has survived not only five
+    // centuries, but also the leap into electronic`,
+    // ],
+    dates: [],
+    messages: state?.messages,
   };
 };
 

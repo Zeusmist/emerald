@@ -32,6 +32,27 @@ const Routes = () => {
       <Route path="/payout" component={Payout} />
       <Route path="/deposit" component={Deposit} />
       <Route path="/account" component={Account} />
+      <Route path="/user/profile">
+        <Account />
+      </Route>
+      <Route path="/user/profile">
+        <Account />
+      </Route>
+      <Route path="/user/payment-methods">
+        <Account />
+      </Route>
+      <Route path="/user/bank-details">
+        <Account />
+      </Route>
+      <Route path="/user/change-password">
+        <Account />
+      </Route>
+      <Route path="/user/biometrics">
+        <Account />
+      </Route>
+      <Route path="/user/investment-history">
+        <Account />
+      </Route>
 
       {/* <Route path="" */}
     </>

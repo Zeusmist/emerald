@@ -7,11 +7,14 @@ const InvestmentsSummary = ({
   setInvestments,
   token,
   user_id,
+  investments,
   totalInvestments,
   activeInvestments,
 }) => {
   useEffect(() => {
-    // setInvestments({ token, user_id });
+    if (investments.length == 0) {
+      setInvestments({ token, user_id });
+    }
   }, []);
 
   return (
@@ -43,11 +46,23 @@ const InvestmentsSummary = ({
 };
 
 const mapState = (state) => {
+  const { investments } = state;
+
+  let totalInvestments = 0;
+  let activeInvestments = 0;
+  if (investments.length > 0) {
+    investments.forEach((investment) => {
+      totalInvestments += investment?.amount || 0;
+      if (investment?.status == "ongoing")
+        activeInvestments += investment?.amount || 0;
+    });
+  }
   return {
     token: state?.auth.token,
     user_id: state?.auth.id,
-    totalInvestments: 0,
-    activeInvestments: 0,
+    investments,
+    totalInvestments,
+    activeInvestments,
   };
 };
 

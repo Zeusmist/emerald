@@ -33,3 +33,30 @@ export const transferFunds = (creds, onSuccess, onError) => async (
     onError();
   }
 };
+
+export const fundWallet = (creds, onSuccess, onError) => async (dispatch) => {
+  const { token, amount } = creds;
+  const redirect_url = window.location.origin + "/wallet";
+
+  await fetch(`${baseUrl}/api/v1/users/wallet/fundWallet`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ amount, redirect_url }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Fund wallet data", data);
+      if (data?.code == 200) {
+      } else {
+        toast.error(data?.message);
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+      toast.error(e.response?.data?.message);
+      onError && onError();
+    });
+};

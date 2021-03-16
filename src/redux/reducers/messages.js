@@ -1,15 +1,11 @@
 import { SET_MESSAGES } from "../type";
 
-const initialState = {
-  messages: {},
-};
+const initialState = [];
 
 const MessagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_MESSAGES:
-      const { message } = action;
-
-      return state;
+      return [...action.payload];
     default:
       return state;
   }

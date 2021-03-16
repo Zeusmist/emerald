@@ -5,6 +5,7 @@ import {
   AUTH_SIGN_IN_START,
   SET_USER_INFO,
   ADD_USER,
+  UPDATE_USER,
 } from "../type";
 import { signInRequest } from "../../services";
 import { toast } from "react-toastify";
@@ -75,4 +76,33 @@ export const addUsers = (creds, onSucces = () => {}, onError = () => {}) => {
         onError();
       });
   };
+};
+
+export const updateUser = (creds, onSucces, onError) => async (dispatch) => {
+  await fetch(`${baseUrl}/api/v1/users/updateMe`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${creds?.token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(creds.changes),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("res", res);
+      if (res?.code == 200) {
+        toast.success(res?.message);
+        dispatch({
+          type: UPDATE_USER,
+          payload: creds.changes,
+        });
+      } else {
+        toast.error(res?.message);
+        if (res?.code == 401) window.location.replace("/");
+      }
+    })
+    .catch((e) => {
+      console.log("error", e);
+      toast.error(e.response?.data?.message);
+    });
 };

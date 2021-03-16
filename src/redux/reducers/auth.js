@@ -1,4 +1,9 @@
-import { AUTH_SIGN_IN_START, AUTH_SIGN_IN, ADD_USER } from "../type";
+import {
+  AUTH_SIGN_IN_START,
+  AUTH_SIGN_IN,
+  ADD_USER,
+  UPDATE_USER,
+} from "../type";
 
 const initialState = {
   token: "",
@@ -39,6 +44,12 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         email: payload.email,
         otp: payload.otp,
         id: payload?.id,
+      };
+
+    case UPDATE_USER:
+      return {
+        ...state,
+        ...payload,
       };
 
     default:

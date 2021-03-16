@@ -1,13 +1,11 @@
 import { SET_INVESTMENTS } from "../type";
 
-const initialState = {};
+const initialState = [];
 
 const InvestmentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_INVESTMENTS:
-      const { investments } = action;
-
-      return state;
+      return [...action.payload];
     default:
       return state;
   }

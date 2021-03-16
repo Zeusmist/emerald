@@ -19,8 +19,11 @@ export const setMessages = (
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
-        if (data?.status == "fail") {
+        console.log("messages", data);
+        if (data?.code == 200) {
+          dispatch({ type: SET_MESSAGES, payload: data.data });
+          // toast.success(data?.message);
+        } else {
           if (data?.code == 401) {
             // window.location.replace("/");
           }
@@ -38,7 +41,6 @@ export const setMessages = (
         onError();
       });
 
-    // dispatch({ type: SET_USER_INFO, payload: data?.data });
     onSuccess();
   } catch (error) {
     onFailure();

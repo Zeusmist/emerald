@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
 import { baseUrl } from "../config";
 
 const Verify = ({ email, userName, otpData }) => {
@@ -87,16 +87,10 @@ const Verify = ({ email, userName, otpData }) => {
           />
           <div
             className="btn"
-            onClick={verifyMe}
+            onClick={isVerifying ? () => {} : verifyMe}
             // style={{ marginLeft: "10px" }}
           >
-            {isVerifying ? (
-              <Spinner animation="border" role="status" size="sm">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            ) : (
-              "Verify"
-            )}
+            {isVerifying ? <Spinner size="sm" /> : "Verify"}
           </div>
         </div>
         <small style={{ color: "red" }}>{otpMessage}</small>
@@ -104,15 +98,9 @@ const Verify = ({ email, userName, otpData }) => {
           <span className="d-block mobile-text">Didn't receive the code?</span>
           <span
             className="font-weight-bold text-danger cursor"
-            onClick={resendOTP}
+            onClick={isResending ? () => {} : resendOTP}
           >
-            {isResending ? (
-              <Spinner animation="border" role="status" size="sm">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            ) : (
-              "Resend"
-            )}
+            {isResending ? <Spinner size="sm" /> : "Resend"}
           </span>
         </div>
       </div>

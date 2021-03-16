@@ -2,18 +2,71 @@
 
 import React, { PureComponent } from "react";
 import "./navbar/navStyle.css";
-import { Button, Modal, Spinner } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { baseUrl } from "../config";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import Switch from "react-switch";
+import Spinner from "../components/Spinner";
 
 class FarmList extends PureComponent {
   state = {
-    show: false,
     farms: [],
   };
 
-  toggleModal = () => this.setState((prev) => ({ show: !prev.show }));
+  closeModal = () => this.setState({ selectedFarm: false });
+
+  handleSelectFarm = (farm) =>
+    this.setState({
+      selectedFarm: { farm, no_of_units: 0, rollover_status: false },
+    });
+
+  toggleSwitch = () => {
+    const rollover_status = this.state?.selectedFarm?.rollover_status;
+    this.setState({
+      selectedFarm: {
+        ...this.state.selectedFarm,
+        rollover_status: !rollover_status,
+      },
+    });
+  };
+
+  setUnits = (no_of_units) =>
+    this.setState({
+      selectedFarm: { ...this.state.selectedFarm, no_of_units },
+    });
+
+  handleBuy = async () => {
+    const { token } = this.props;
+    const { selectedFarm } = this.state;
+
+    this.setState({ isBuying: true }, async () => {
+      if (selectedFarm?.no_of_units == 0) {
+        toast.error("Enter number of units");
+      } else {
+        await fetch(`${baseUrl}/api/v1/users/addInvestment`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(selectedFarm),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Buy farm", data);
+            if (data?.code == 200) {
+            } else {
+              toast.error(data?.message);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+      this.setState({ isBuying: false });
+    });
+  };
 
   componentDidMount() {
     this.setState({ isFetchingFarms: true }, async () => {
@@ -41,7 +94,7 @@ class FarmList extends PureComponent {
   }
 
   render() {
-    const { show, isFetchingFarms, farms } = this.state;
+    const { isFetchingFarms, farms, selectedFarm, isBuying } = this.state;
     return (
       <div className="dashboard col-md-12" style={{ height: "100%" }}>
         <div className="farmtitle">
@@ -87,7 +140,7 @@ class FarmList extends PureComponent {
                         <button
                           type="button"
                           className="cusBut"
-                          onClick={this.toggleModal}
+                          onClick={() => this.handleSelectFarm(farm?._id)}
                         >
                           Buy
                         </button>
@@ -113,67 +166,40 @@ class FarmList extends PureComponent {
           </div>
         </div>
 
-        <Modal show={show} onHide={this.toggleModal}>
+        <Modal show={selectedFarm} onHide={this.closeModal}>
           <Modal.Body className="modalBody">
             <div>
               <div className="modalForm p-2">
-                <label for="exampleFormControlInput1">
-                  Investment Category
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                />
-              </div>
-
-              <div className="modalForm p-2">
-                <label for="exampleFormControlInput1">No of Unit</label>
+                <label for="exampleFormControlInput1">No of Unit(s)</label>
                 <input
                   type="number"
                   class="form-control"
                   id="exampleFormControlInput1"
+                  onChange={(e) => this.setUnits(e.target.value)}
                 />
               </div>
-
-              <div className="modalForm p-2">
-                <label for="exampleFormControlInput1">Duration</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="exampleFormControlInput1"
+              <div
+                className="modalForm p-2"
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                <label for="exampleFormControlInput1">Roll over</label>
+                <Switch
+                  onChange={this.toggleSwitch}
+                  checked={this.state?.selectedFarm?.rollover_status}
                 />
               </div>
-
-              <div className="modalForm p-2">
-                <label for="exampleFormControlInput1">Amount</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                />
-              </div>
-
-              <div className="modalForm p-2">
-                <label for="exampleFormControlInput1">Payment Method</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                />
-              </div>
-
               <div
                 className="modalForm p-2 d-flex justify-content-between"
                 style={{ width: "100%" }}
               >
-                <Button variant="primary" onClick={this.toggleModal}>
-                  Save Changes
+                <Button
+                  variant="primary"
+                  onClick={this.handleBuy}
+                  className="formBut1"
+                  disabled={isBuying}
+                >
+                  {isBuying ? <Spinner size="sm" /> : "Buy"}
                 </Button>
-                <label className="switched">
-                  <input type="checkbox" unchecked />
-                  <span className="slider round"></span>
-                </label>
               </div>
             </div>
           </Modal.Body>

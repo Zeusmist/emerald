@@ -25,9 +25,21 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
   console.log(":::::::::::::::::::balance", wallets);
 
   const cards = wallets.map((card, i) => {
+    const background =
+      card?.type == "Emerald"
+        ? "linear-gradient(177.23deg, #0e4944 -13.49%, #3ce176 109.75%)"
+        : card?.type == "Payout"
+        ? "linear-gradient(177.23deg, #1B4C4B -13.49%, #166DAE 109.75%)"
+        : "linear-gradient(177.23deg, #647945 -13.49%, #CBC115 109.75%)";
+    const description =
+      card?.type == "Emerald"
+        ? "Buy farm units from here"
+        : card?.type == "Payout"
+        ? "Make withdrawals from here"
+        : "Save funds here";
     return (
       <div className="col-md-4 col-sm-12">
-        <div className="cardOne ">
+        <div className="cardOne " style={{ background }}>
           <div
             style={{
               display: "flex",
@@ -52,15 +64,20 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
               >
                 <Card />
               </div>
-              <small>Master card</small>
+              <small style={{ color: "#fff" }}>Master card</small>
             </div>
           </div>
           <div>
-            <p>
+            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
               Current Balance <br />
               <small className="pSmall">₦{card?.balance}.00</small>
             </p>
           </div>
+        </div>
+        <div
+          style={{ textAlign: "center", fontSize: "20px", color: "#0f3d27" }}
+        >
+          {description}
         </div>
         {/* <p className="text-center">Buy farm units from here</p> */}
       </div>
@@ -119,14 +136,14 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
       </div>
 
       <div className="walletCards mt-4 row d-flex justify-content-around pb-2">
-        <div className="col-md-6 col-sm-12 p-4">
+        <div className="col-md-6 col-sm-12 p-4" style={{ padding: "0px" }}>
           <div className="fundWallet pb-4">
             <p className="fundB">
               Fund Wallet
               <br />
-              <small className="fundM">
+              <div className="fundM">
                 Fund your Emerald, Payout and Savings wallet here
-              </small>
+              </div>
             </p>
             <button type="button" className="fundBut" onClick={handleShowFund}>
               Fund
@@ -134,14 +151,14 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
           </div>
         </div>
 
-        <div className="col-md-6 col-sm-12  p-4">
+        <div className="col-md-6 col-sm-12  p-4" style={{ padding: "0px" }}>
           <div className="fundWallet pb-4">
             <p className="fundB">
               Inter-Account Transfer
               <br />
-              <small className="fundM">
+              <div className="fundM">
                 You can transfer funds from one wallet to another seamlessly.
-              </small>
+              </div>
             </p>
             <button
               type="button"

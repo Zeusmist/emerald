@@ -9,19 +9,20 @@ import React, { useState, useEffect } from "react";
 // import Transactions from '../transaction/Transaction';
 import "./navStyle.css";
 import Routes from "../../routes/Routes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { getWallets, toggleModal } from "../../redux/actions";
 import { Modal } from "react-bootstrap";
 import FundWallet from "../../components/payments/FundWallet";
 import FlutterWave from "../../components/payments/FlutterWave";
+import { Farmer } from "../account/svg";
 
 const sideMenuOptions = [
   { name: "Dashboard", href: "/dashboard", iconClass: "fa-home" },
   { name: "Messages", href: "/message", iconClass: "fa-envelope" },
   { name: "Farm List", href: "/farmlist", iconClass: "fa-list" },
   { name: "Emerald Bank", href: "/wallet", iconClass: "fa-industry" },
-  { name: "Wallet", href: "/wallet", iconClass: "fa-credit-card" },
+  // { name: "Wallet", href: "/wallet", iconClass: "fa-credit-card" },
   { name: "Settings", href: "/profile", iconClass: "fa-cog" },
   { name: "Newsletter", href: "/newsletter", iconClass: "fa-map-signs" },
 ];
@@ -42,6 +43,8 @@ const NavBar = ({
     display: "",
     inside: "80%",
   });
+
+  const location = useLocation();
 
   useEffect(() => {
     getWallets(token);
@@ -143,11 +146,29 @@ const NavBar = ({
           } col-sm-12 d-flex justify-content-center align-item-center p-${2}`}
         >
           <div className={`innerSideNav`} style={{ width: showSide.inside }}>
-            <div className="me" style={{ display: showSide.display }}></div>
-            <p style={{ marginTop: 5, display: showSide.display }}>
+            <div
+              className="me"
+              style={{
+                display: showSide.display,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Farmer />
+            </div>
+            <p
+              style={{
+                display: showSide.display,
+                padding: 0,
+                margin: 0,
+                fontSize: "20px",
+              }}
+            >
               {firstName} {lastName}
             </p>
-            <Link to="/account">
+            {/* <Link to="/account" style={{ marginBottom: "50px" }}> */}
+            <Link to="/user/profile" style={{ marginBottom: "50px" }}>
               <small
                 style={{
                   display: showSide.display,
@@ -160,37 +181,44 @@ const NavBar = ({
             </Link>
             <div className="navList">
               <ul style={{ padding: 0 }}>
-                {sideMenuOptions.map((option, i) => (
-                  <li key={i}>
-                    <Link
-                      to={option.href}
-                      style={{
-                        justifyContent:
-                          showSide.mainSide == 1 ? "center" : "flex-start",
-                      }}
+                {sideMenuOptions.map((option, i) => {
+                  const isSelected = location.pathname == option.href;
+                  return (
+                    <li
+                      key={i}
+                      className={`${isSelected ? "selectedNav" : ""}`}
                     >
-                      <span
-                        className="icon"
+                      <Link
+                        to={option.href}
                         style={{
-                          minWidth: showSide.mainSide == 1 ? "auto" : "60px",
+                          justifyContent:
+                            showSide.mainSide == 1 ? "center" : "flex-start",
                         }}
                       >
-                        <i
-                          className={`fa ${option.iconClass}`}
-                          aria-hidden="true"
-                        ></i>
-                      </span>
-                      <span
-                        className="titleList"
-                        style={{
-                          display: showSide.mainSide == 1 ? "none" : "inherit",
-                        }}
-                      >
-                        {option.name}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+                        <span
+                          className="icon"
+                          style={{
+                            minWidth: showSide.mainSide == 1 ? "auto" : "60px",
+                          }}
+                        >
+                          <i
+                            className={`fa ${option.iconClass}`}
+                            aria-hidden="true"
+                          ></i>
+                        </span>
+                        <span
+                          className="titleList"
+                          style={{
+                            display:
+                              showSide.mainSide == 1 ? "none" : "inherit",
+                          }}
+                        >
+                          {option.name}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -203,13 +231,13 @@ const NavBar = ({
               <FundWallet />
             </Modal.Body>
           </Modal>
-          {modalIsOpen && (
+          {/* {modalIsOpen && (
             <FlutterWave
               amount={1000}
               title="aaaa"
               description="dndmd dsnfndd"
             />
-          )}
+          )} */}
         </div>
       </div>
     </div>

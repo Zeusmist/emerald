@@ -105,28 +105,29 @@ function App() {
               <NavBar />
             </Route>
             <Route path="/account">
-              <Account />
+              {/* <Account /> */}
+              <NavBar />
             </Route>
             <Route path="/user/profile">
-              <Account />
+              <NavBar />
             </Route>
             <Route path="/user/profile">
-              <Account />
+              <NavBar />
             </Route>
             <Route path="/user/payment-methods">
-              <Account />
+              <NavBar />
             </Route>
             <Route path="/user/bank-details">
-              <Account />
+              <NavBar />
             </Route>
             <Route path="/user/change-password">
-              <Account />
+              <NavBar />
             </Route>
             <Route path="/user/biometrics">
-              <Account />
+              <NavBar />
             </Route>
             <Route path="/user/investment-history">
-              <Account />
+              <NavBar />
             </Route>
           </Switch>
         </div>

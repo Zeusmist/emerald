@@ -19,8 +19,11 @@ export const setInvestments = (
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
-        if (data?.status == "fail") {
+        console.log("investments", data);
+        if (data?.code == 200) {
+          dispatch({ type: SET_INVESTMENTS, payload: data.data });
+          // toast.success(data?.message);
+        } else {
           if (data?.code == 401) {
             // window.location.replace("/");
           }

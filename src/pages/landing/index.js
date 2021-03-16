@@ -11,7 +11,7 @@ const Landing = () => {
     <div>
       <Header />
       {/* <Login /> */}
-      {/* <HomeCarousel /> */}
+      <HomeCarousel />
       <OurProducts />
       <GetStarted />
       <Footer />

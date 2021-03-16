@@ -1,8 +1,10 @@
 import React, { PureComponent } from "react";
 import FlutterWave from "./FlutterWave";
-import { Spinner, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-
+import Spinner from "../Spinner";
+import { fundWallet } from "../../redux/actions";
+import { connect } from "react-redux";
 class FundWallet extends PureComponent {
   state = { amount: 0 };
 
@@ -13,8 +15,12 @@ class FundWallet extends PureComponent {
   };
 
   handleNext = () => {
-    if (this.state.amount > 0)
-      this.setState({ openPayment: true, isMakingPayment: true });
+    const { amount } = this.state;
+    const { fundWallet, token } = this.props;
+
+    if (amount > 0)
+      // this.setState({ openPayment: true, isMakingPayment: true });
+      fundWallet({ token, amount });
     else toast.error("Enter a valid amount");
   };
 
@@ -28,9 +34,7 @@ class FundWallet extends PureComponent {
         description="Fund your Emerald Farms wallet"
       />
     ) : isMakingPayment ? (
-      <Spinner animation="border" role="status" size="sm">
-        <span className="sr-only">Loading...</span>
-      </Spinner>
+      <Spinner size="sm" />
     ) : (
       <div>
         <div className="p-2">
@@ -66,4 +70,10 @@ class FundWallet extends PureComponent {
   }
 }
 
-export default FundWallet;
+const mapState = (state) => {
+  return {
+    token: state.auth?.token,
+  };
+};
+
+export default connect(mapState, { fundWallet })(FundWallet);

@@ -69,7 +69,7 @@ const Account = ({ firstName, lastName }) => {
 
   return (
     <div>
-      <div className="myNav row m-0">
+      {/* <div className="myNav row m-0">
         <div
           className="col-md-3 col-sm-12 d-flex justify-content-around"
           style={{
@@ -123,10 +123,10 @@ const Account = ({ firstName, lastName }) => {
             </span>
           </a>
         </div>
-      </div>
+      </div> */}
 
       <div className="contentWrap row m-0">
-        <div
+        {/* <div
           className={`sideNav col-md-${
             showSide.mainSide
           } col-sm-12 d-flex justify-content-center align-item-center p-${2}`}
@@ -233,7 +233,7 @@ const Account = ({ firstName, lastName }) => {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className={`content col-md-${showSide.mainContent} col-sm-12 p-3`}>
           <div style={{ display: "flex", flexDirection: "row" }}>

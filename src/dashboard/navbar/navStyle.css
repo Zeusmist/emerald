@@ -19,6 +19,13 @@
 /* all about bootstrap form */
 .form-control {
   width: 300px !important;
+  color:#000;
+  border-radius: 5px;
+}
+
+.formLabel {
+  width: 100%;
+  font-weight: bold;
 }
 
 .cutForm {
@@ -169,46 +176,52 @@ th {
   font-size: 16px;
   line-height: 20px;
   list-style: none;
-}
-
-.navList ul li a {
-  position: relative;
-  width: 100%;
-  display: flex;
-  text-decoration: none;
-  color: #737588;
-  padding: 8px;
-}
-
-.navList ul li a .icon {
-  position: relative;
-  min-width: 60px;
-  display: block;
-  line-height: 20px;
-  color: #b5c6d0;
-}
-
-.icon {
-  position: relative;
-  min-width: 60px;
-  line-height: 10px;
-}
-
-.navList ul li:hover {
-  color: #0e4944;
-  box-shadow: 0px 8px 24px rgba(25, 29, 56, 0.16);
-  padding: 8px;
   cursor: pointer;
   text-decoration: none;
   font-size: 18px;
+  }
+  .navList ul li:not(.selectedNav) {
+  }
+  
+  .navList ul li a {
+    position: relative;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: #737588;
+    padding: 8px;
+  }
+  
+  .navList ul li a .icon {
+    position: relative;
+    min-width: 60px;
+    display: block;
+    line-height: 20px;
+    color: #b5c6d0;
+  }
+  
+  .icon {
+    position: relative;
+    min-width: 60px;
+    line-height: 10px;
+  }
+  
+  .selectedNav {
+    box-shadow: 0px 8px 24px rgba(25, 29, 56, 0.16); 
+    padding: 8px;
+  }
+
+.navList ul li:not(.selectedNav):hover{
+  color: #0e4944;
   background: linear-gradient(
-    180deg,
+    130deg,
     #ffffff 0%,
     rgba(255, 255, 255, 0.81) 99.97%,
     rgba(255, 255, 255, 0.211523) 99.98%,
     rgba(255, 255, 255, 0.448161) 99.99%,
     rgba(255, 255, 255, 0) 100%
-  );
+    );
+    background-color: green;
 }
 
 /* Dashboard session */
@@ -242,6 +255,7 @@ th {
 .messageList {
   width: 100%;
   background: #feffff;
+  height: 30%
 }
 
 .messageBut {
@@ -311,7 +325,7 @@ th {
 }
 
 .pSmall {
-  font-family: Roboto;
+  font-family: 'Montserrat';
   font-style: normal;
   font-weight: bold;
   font-size: 28px;
@@ -321,14 +335,15 @@ th {
 
 .fundB {
   font-family: Century Gothic;
-  font-size: 38px;
+  font-size: 35px;
   font-style: normal;
   font-weight: 400;
+  padding: 40px
 }
 
 .fundM {
   font-family: Century Gothic;
-  font-size: 24px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
 }
@@ -419,7 +434,8 @@ th {
   width: 80%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .formBut1 {
@@ -718,6 +734,16 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
   }
+}
+.cardRoot{
+  background: #FFFFFF;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+border-radius: 5px;
+width:421px;
+padding: 50px 30px 45px 50px;
+margin: 17px 7px;
+cursor: pointer;
+
 }
 
 @media (max-width: 858px) {

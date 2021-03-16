@@ -1,115 +1,88 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Modal} from 'react-bootstrap'
-import {useHistory} from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import {getCards} from '../../redux/actions'
+import { getCards } from "../../redux/actions";
+import ProfileHeader from "./ProfileHeader";
+import Profile from "./Profile";
+import Spinner from "../../components/Spinner";
 
-
-
-const BankDetails = ({getCards, token, cards})=>{
+const BankDetails = ({ getCards, token, cards, banks }) => {
   const history = useHistory();
-    // const [show, setShow] = useState(false);
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
+  const [isFetchingBanks, setIsFetchingBanks] = useState(false);
+  // const [show, setShow] = useState(false);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
+  console.log("CARDS:::::::::::::::", cards);
 
-    console.log('CARDS:::::::::::::::',cards);
-
-    useEffect(()=>{
-       getCards(token)
-
-    },[])
-    return(
-        <div style={{ height: "100%" }}>
-        
-        <div className="row col-md-12 d-flex justify-content-center">
-        <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/profile")}>Profile</button>
-        <button type="button" className="butGroup col-md-3 col-sm-3" onClick={()=> history.push("/nextofkin")}>Next of kin</button>
-        <button type="button" className="butGroup col-md-3 col-sm-3">Bank Details</button>
-        </div>
-
-        <div className="col-md-12 d-flex justify-content-center mt-1">
-        <div className="meProfile">
-
-        </div>
-        </div>
-        <p className="col-md-12 text-center">Nnamdi Emeka<br/>
-        <small className="col-md-12 d-flex justify-content-center">User@gmail.com</small>
-        </p>
-        {/* <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-end'}}>
+  useEffect(() => {
+    getCards(token);
+  }, []);
+  return (
+    <div style={{ height: "100%" }}>
+      <ProfileHeader />
+      {/* <div style={{display:'flex', flexDirection:'row', justifyContent:'flex-end'}}>
             <button className="bankInfo" onClick={handleShow}>Add Bank Details</button>
         </div> */}
 
-        <div className="transaData mt-4">
-            <div class="table-responsive">
-            <table class="table">
-                    
+      <div className="transaData mt-4">
+        <div class="table-responsive">
+          <table class="table">
             <thead>
-                <tr>
+              <tr>
                 <th scope="col">#</th>
                 <th scope="col">Bank Name</th>
                 <th scope="col">Account Name</th>
                 <th scope="col">Account Number</th>
                 <th scope="col">Account Info</th>
                 <th scope="col">Status</th>
-                </tr>
+              </tr>
             </thead>
-            <tbody>
-                <tr>
-                <td>1</td>
-                <td>GTBank</td>
-                <td>Nnamdi</td>
-                <td>0002221111</td>
-                <td>account info</td>
-                <td>Edit<br/>Delete</td>
-
-                </tr>
-                <tr>
-                <td>2</td>
-                <td>Access Bank</td>
-                <td>Nnamdi</td>
-                <td>0002221111</td>
-                <td>account info</td>
-                <td>Edit<br/>Delete</td>
-
-                </tr>
-                <tr>
-                <td>3</td>
-                <td>GTBank</td>
-                <td>Nnamdi</td>
-                <td>0002221111</td>
-                <td>account info</td>
-                <td>Edit<br/>Delete</td>
-
-                </tr>
-                <tr>
-                <td>4</td>
-                <td>Access Bank</td>
-                <td>Nnamdi</td>
-                <td>0002221111</td>
-                <td>account info</td>
-                <td>Edit<br/>Delete</td>
-
-                </tr>
-                <tr>
-                <td>5</td>
-                <td>GTBank</td>
-                <td>Nnamdi</td>
-                <td>0002221111</td>
-                <td>account info</td>
-                <td>Edit<br/>Delete</td>
-                </tr>
-            </tbody>
-            </table>
+            {/* {banks.length > 0 && (
+                <tbody>
+                  {banks.map((bank, i) => (
+                    <tr key={i}>
+                      <td scope="row">{bank?.name}</td>
+                      <td>
+                        ₦
+                        {(bank?.cost_per_unit)
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                      </td>
+                      <td>{bank?.status}</td>
+                      <td>{bank?.return}%</td>
+                      <td>{bank?.duration} days</td>
+                      <td>{bank?.no_of_available_units} units</td>
+                      <td>
+                        <button
+                          type="button"
+                          className="cusBut"
+                          onClick={this.toggleModal}
+                        >
+                          Buy
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              )} */}
+          </table>
+          {banks.length < 1 && (
+            <div style={{ textAlign: "center" }}>
+              {isFetchingBanks ? (
+                <Spinner size="" />
+              ) : (
+                <div style={{ fontSize: "20px", fontWeight: "bold" }}>
+                  No banks added yet
+                </div>
+              )}
             </div>
-            </div>
+          )}
+        </div>
+      </div>
 
-
-
-
-
-
-            {/* <Modal show={show} onHide={handleClose}>
+      {/* <Modal show={show} onHide={handleClose}>
         <Modal.Body className="modalBody">
                 <div>
                     <div className="modalForm p-2">
@@ -151,16 +124,16 @@ const BankDetails = ({getCards, token, cards})=>{
               
         </Modal.Body>
       </Modal> */}
-</div>
-    )
-}
-
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
     token: state?.auth?.token,
     data: state?.user?.data,
-    cards: state?.user?.cards
+    cards: state?.user?.cards,
+    banks: [],
   };
 };
 
