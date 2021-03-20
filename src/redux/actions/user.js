@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { baseUrl } from "../../config";
-import { GET_WALLETS, GET_CARDS } from "../type";
+import { GET_WALLETS, GET_CARDS, UPDATE_AUTH, SET_BANKS } from "../type";
 
 export const getWallets = (token) => {
   console.log({ GettingWallets: token });
@@ -17,7 +17,8 @@ export const getWallets = (token) => {
         console.log("Success:", data);
         if (data?.status == "fail") {
           if (data?.code == 401) {
-            window.location.replace("/");
+            dispatch({ type: UPDATE_AUTH, payload: { token: null } });
+            setTimeout(() => window.location.replace("/"), 2000);
           }
           toast.error(data?.message);
           return;
@@ -54,6 +55,35 @@ export const getCards = (token) => {
             cards: data?.data,
           },
         });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+};
+
+export const getBanks = (token) => {
+  return async (dispatch) => {
+    await fetch(`${baseUrl}/api/v1/users/getBankDetails`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Get bank data:", data);
+        if (data?.code == 200) {
+          dispatch({
+            type: SET_BANKS,
+            payload: {
+              banks: data?.data,
+            },
+          });
+        } else {
+          toast.error(data?.message);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);

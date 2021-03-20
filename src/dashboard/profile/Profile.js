@@ -17,7 +17,7 @@ const formRows = [
     { name: "Email", state: "email", type: "email" },
   ],
   [
-    { name: "Phone Number", state: "phoneNumber", validationType: "number" },
+    { name: "Phone Number", state: "phone", validationType: "number" },
     { name: "Address", state: "address" },
   ],
 ];
@@ -30,7 +30,7 @@ class Profile extends PureComponent {
       lastName: props?.lastName,
       middleName: props?.middleName,
       email: props?.email,
-      phoneNumber: props?.phoneNumber,
+      phone: props?.phone,
       address: props?.address,
       city: props?.city,
       dob: props?.dob,
@@ -44,6 +44,14 @@ class Profile extends PureComponent {
     };
   }
 
+  handleChangeField = (state, value, validationType) => {
+    if (validationType == "number") {
+      value = value.replace(/[^0-9]/g, "");
+    }
+
+    this.setState({ userData: { ...this.state.userData, [state]: value } });
+  };
+
   checkFieldChanges = () => {
     let changes = {};
     for (const field in this.state.userData) {
@@ -51,16 +59,7 @@ class Profile extends PureComponent {
         changes[field] = this.state.userData[field];
       }
     }
-    console.log("changes", changes);
     return changes;
-  };
-
-  handleChangeField = (state, value, validationType) => {
-    if (validationType == "number") {
-      value = value.replace(/[^0-9]/g, "");
-    }
-
-    this.setState({ userData: { ...this.state.userData, [state]: value } });
   };
 
   handleSaveChanges = () => {
@@ -172,18 +171,6 @@ class Profile extends PureComponent {
                 disabled
                 value={this.state.userData.country}
               />
-              {/* <select
-                class="form-select byThree"
-                aria-label="Default select example"
-                onChange={(e) =>
-                  this.handleChangeField("country", e.target.value)
-                }
-                value={this.state.userData.country}
-              >
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select> */}
             </div>
           </div>
 

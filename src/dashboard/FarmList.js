@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import Switch from "react-switch";
 import Spinner from "../components/Spinner";
+import { toggleModal } from "../redux/actions";
 
 class FarmList extends PureComponent {
   state = {
@@ -56,6 +57,14 @@ class FarmList extends PureComponent {
           .then((data) => {
             console.log("Buy farm", data);
             if (data?.code == 200) {
+              swal(
+                data?.message,
+                "check your invesment tab for more info",
+                "success"
+              );
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
             } else {
               toast.error(data?.message);
             }
@@ -99,7 +108,13 @@ class FarmList extends PureComponent {
       <div className="dashboard col-md-12" style={{ height: "100%" }}>
         <div className="farmtitle">
           <h4 style={{ color: "#191D38" }}>Farm List</h4>
-          <button type="button" className="cusBut">
+          <button
+            type="button"
+            className="cusBut"
+            onClick={() =>
+              this.props.toggleModal({ modal: "userboard", isOpen: true })
+            }
+          >
             Fund wallet
           </button>
         </div>
@@ -109,7 +124,7 @@ class FarmList extends PureComponent {
             class="table-responsive"
             style={{ overflow: farms.length < 1 ? "hidden" : "auto" }}
           >
-            <table class="table">
+            <table class="table farmTable">
               <thead>
                 <tr>
                   <th scope="col">Title </th>
@@ -151,13 +166,12 @@ class FarmList extends PureComponent {
               )}
             </table>
             {farms.length < 1 && (
-              <div style={{ textAlign: "center" }}>
+              <div style={{ textAlign: "center", padding: "10px" }}>
                 {isFetchingFarms ? (
-                  <Spinner animation="border" role="status" size="">
-                    <span className="sr-only">Loading...</span>
-                  </Spinner>
+                  <Spinner size="lg" />
                 ) : (
-                  <div style={{ fontSize: "20px", fontWeight: "bold" }}>
+                  // <div className="emptyList" style={{ fontSize: "20px", fontWeight: "bold" }}>
+                  <div className="emptyList">
                     No farms available at the moment
                   </div>
                 )}
@@ -215,4 +229,4 @@ const mapState = (state) => {
   };
 };
 
-export default connect(mapState)(FarmList);
+export default connect(mapState, { toggleModal })(FarmList);

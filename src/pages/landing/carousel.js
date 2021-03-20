@@ -20,18 +20,23 @@ export default function HomeCarousel() {
         <div className="carousel-div">
           <div className="carousel-div-mainText">Farm Projects</div>
           <div className="carousel-div-subText">
-            Investing in farm produce such as pork, wheat,this is a dummy text
+            Investing in farm produce such as pork, wheat, etc.
           </div>
-          <button className="btn me-2 join-button">Join Today</button>
+          <button
+            className="btn me-2 join-button"
+            onClick={() => (window.location.pathname = "/signup")}
+          >
+            Join Today
+          </button>
         </div>
         <img src={logo} alt="first-carousel" className="carouselImage1" />
       </div>
-      <div>
+      {/* <div>
         <h3>2</h3>
       </div>
       <div>
         <h3>3</h3>
-      </div>
+      </div> */}
     </Slider>
   );
 }

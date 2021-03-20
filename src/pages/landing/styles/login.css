@@ -19,13 +19,14 @@ form {
 .loginCard {
   background: grey; /*white color */
   border-radius: 24px;
-  padding: 10px 10px;
+  padding: 30px;
 }
 
 .cardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .cardHeader :last-child {

@@ -3,11 +3,13 @@ import {
   GET_CARDS,
   GET_WALLETS,
   GET_TRANSACTIONS,
+  SET_BANKS,
 } from "../type";
 
 const initialState = {
   data: {},
   cards: [],
+  banks: [],
   wallets: [],
 };
 
@@ -28,6 +30,12 @@ const UserReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         cards: payload?.cards,
+      };
+
+    case SET_BANKS:
+      return {
+        ...state,
+        banks: payload?.banks,
       };
 
     case GET_TRANSACTIONS:

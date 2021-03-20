@@ -37,15 +37,7 @@ const DateInFoButton = ({ startDate, endDate, onOpen, isOpen, onClose }) => {
   );
 };
 
-const ActionButton = ({
-  id,
-  token,
-  isOpen,
-  onOpen,
-  options,
-  onClose,
-  setFarms,
-}) => {
+const ActionButton = ({ id, token, isOpen, onOpen, options, onClose }) => {
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
   const ref = useRef();
@@ -54,10 +46,15 @@ const ActionButton = ({
   });
 
   const handleOptionClick = (i) => {
+    if (i == 0)
+      setConfirmationModalOpen({
+        i,
+        message: "Are you sure you want to make this Admin a Super Admin?",
+      });
     if (i == 1)
       setConfirmationModalOpen({
         i,
-        message: "Are you sure you want to delete this Farm?",
+        message: "Are you sure you want to delete this Admin?",
       });
   };
 
@@ -68,8 +65,24 @@ const ActionButton = ({
       "Content-Type": "application/json",
     };
 
-    if (confirmationModalOpen?.i == 1) {
-      await fetch(`${baseUrl}/api/v1/admin/deleteFarm/${id}`, {
+    if (confirmationModalOpen?.i == 0) {
+      await fetch(`${baseUrl}/api/v1/admin/users/${id}`, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({ role: "superadmin" }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Data after update", data);
+          if (data?.code == 200) {
+            toast.success(data?.message);
+            window.location.reload();
+          } else {
+            toast.error(data?.message);
+          }
+        });
+    } else {
+      await fetch(`${baseUrl}/api/v1/admin/users/${id}`, {
         method: "DELETE",
         headers,
       })
@@ -78,7 +91,7 @@ const ActionButton = ({
           console.log("Data after delete", data);
           if (data?.code == 200) {
             toast.success(data?.message);
-            setFarms();
+            window.location.reload();
           } else {
             toast.error(data?.message);
           }
@@ -118,32 +131,29 @@ class BookFarm extends PureComponent {
     farms: [],
     options: [{ name: "Edit farm" }, { name: "Delete farm" }],
   };
-
-  setFarms = async () => {
-    await fetch(`${baseUrl}/api/v1/farms`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${this.props.token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then(async (data) => {
-        console.log("Get farms data", data);
-        if (data?.code == 200) {
-          this.setState({
-            farms: data?.data,
-          });
-        } else {
-          toast.error(data?.message);
-        }
-      })
-      .catch((e) => console.log(e));
-    this.setState({ isFetchingFarms: false });
-  };
-
   componentDidMount() {
-    this.setState({ isFetchingFarms: true }, this.setFarms);
+    this.setState({ isFetchingFarms: true }, async () => {
+      await fetch(`${baseUrl}/api/v1/farms`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.props.token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then(async (data) => {
+          console.log("Get farms data", data);
+          if (data?.code == 200) {
+            this.setState({
+              farms: data?.data,
+            });
+          } else {
+            toast.error(data?.message);
+          }
+        })
+        .catch((e) => console.log(e));
+      this.setState({ isFetchingFarms: false });
+    });
   }
 
   render() {
@@ -152,10 +162,9 @@ class BookFarm extends PureComponent {
       isFetchingFarms,
       dateInfoModalIsOpen,
       options,
+      token,
       addingNewFarm,
     } = this.state;
-
-    const { token } = this.props;
 
     return (
       <div className="dashboard col-md-12" style={{ height: "100%" }}>
@@ -196,7 +205,7 @@ class BookFarm extends PureComponent {
                 <tbody>
                   {farms.map((farm, i) => (
                     <tr key={i} className="tr">
-                      <th scope="row">{i + 1}</th>
+                      <th scope="row">1</th>
                       <th>
                         <div
                           style={{
@@ -240,7 +249,6 @@ class BookFarm extends PureComponent {
                           this.setState({ actionModalIsOpen: false })
                         }
                         options={options}
-                        setFarms={this.setFarms}
                       />
                     </tr>
                   ))}

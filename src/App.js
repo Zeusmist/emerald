@@ -28,32 +28,32 @@ function App() {
             <Route path="/verify">
               <Verify />
             </Route>
-            {/* <Route path="/adminDashboard">
-              <AdminNav />
-            </Route> */}
+            <Route path="/admindashboard">
+              <NavBar />
+            </Route>
             <Route path="/adminmessage">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/adminmarket">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/admins">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/adminusers">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/userprofile">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/investmenthistory">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/adminfarmlist">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/bookfarm">
-              <AdminNav />
+              <NavBar />
             </Route>
             <Route path="/dashboard">
               <NavBar />
@@ -102,6 +102,9 @@ function App() {
               <NavBar />
             </Route>
             <Route path="/bankdetails">
+              <NavBar />
+            </Route>
+            <Route path="/change-password">
               <NavBar />
             </Route>
             <Route path="/account">

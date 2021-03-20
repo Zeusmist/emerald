@@ -6,6 +6,7 @@ import {
   SET_USER_INFO,
   ADD_USER,
   UPDATE_USER,
+  UPDATE_AUTH,
 } from "../type";
 import { signInRequest } from "../../services";
 import { toast } from "react-toastify";
@@ -19,22 +20,20 @@ export const signInStart = (
   try {
     dispatch({ type: AUTH_SIGN_IN_START });
     let data = await signInRequest(creds);
-    console.log({ data });
+    console.log({ data, creds });
     dispatch({
       type: AUTH_SIGN_IN,
       payload: {
+        ...data?.data?.user,
         token: data?.token,
-        role: data?.data?.user?.role,
-        email: data?.data?.user?.email,
-        firstName: data?.data?.user?.firstName,
-        lastName: data?.data?.user?.lastName,
         id: data?.data?.user?._id,
+        password: creds?.password,
       },
     });
 
     dispatch({ type: SET_USER_INFO, payload: data?.data });
     toast.success(data?.message);
-    onSuccess();
+    onSuccess(data?.data?.user);
   } catch (error) {
     dispatch({ type: AUTH_SIGN_IN, payload: {} });
     toast.error(error.response?.data?.message);
@@ -54,20 +53,18 @@ export const addUsers = (creds, onSucces = () => {}, onError = () => {}) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        if (data?.status == "fail") {
+        if (data?.code == 201) {
+          toast.success(data?.message);
+        } else {
           toast.error(data?.message);
           onFailure();
           return;
         }
-        dispatch({
-          type: ADD_USER,
-          payload: {
-            firstName: data?.data?.user?.firstName,
-            lastName: data?.data?.user?.lastName,
-            email: data?.data?.user?.email,
-            otp: data?.data?.user?.otp,
-          },
-        });
+        !creds.addingAdmin &&
+          dispatch({
+            type: ADD_USER,
+            payload: { ...data?.data?.user, password: creds?.password },
+          });
         onSucces();
       })
       .catch((error) => {
@@ -98,11 +95,19 @@ export const updateUser = (creds, onSucces, onError) => async (dispatch) => {
         });
       } else {
         toast.error(res?.message);
-        if (res?.code == 401) window.location.replace("/");
+        if (res?.code == 401) {
+          dispatch({ type: UPDATE_AUTH, payload: { token: null } });
+          setTimeout(() => window.location.replace("/"), 2000);
+        }
       }
     })
     .catch((e) => {
       console.log("error", e);
       toast.error(e.response?.data?.message);
     });
+};
+
+export const updateAuth = (creds) => (dispatch) => {
+  const updated = creds?.changes;
+  dispatch({ type: UPDATE_AUTH, payload: updated });
 };

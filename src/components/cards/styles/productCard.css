@@ -13,6 +13,11 @@
   }
 }
 
+.imageHolderHolder{
+  display: flex;
+  justify-content: center;
+}
+
 .imageHolder {
   width: 9.8em;
   height: 9.8em;
@@ -50,6 +55,7 @@
 .top {
   display: flex;
   margin-bottom: 14px;
+  justify-content: center;
 }
 
 .top__main {
@@ -74,7 +80,8 @@
 .middle {
   display: flex;
   margin-bottom: 1rem;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
+  justify-content: center;
 }
 
 .middle__content {
@@ -91,6 +98,10 @@
   display: flex;
   align-items: center;
   color: #0a403b;
+}
+
+.bottom{
+  text-align: center;
 }
 
 .top__roi_sub {

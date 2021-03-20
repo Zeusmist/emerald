@@ -14,27 +14,25 @@ class FundWallet extends PureComponent {
     this.setState({ amount: value });
   };
 
-  handleNext = () => {
+  handleNext = (e) => {
+    e.preventDefault();
     const { amount } = this.state;
     const { fundWallet, token } = this.props;
-
-    if (amount > 0)
-      // this.setState({ openPayment: true, isMakingPayment: true });
-      fundWallet({ token, amount });
-    else toast.error("Enter a valid amount");
+    this.setState({ isMakingPayment: true }, async () => {
+      if (amount > 0) {
+        await fundWallet({ token, amount });
+      } else toast.error("Enter a valid amount");
+      this.setState({ isMakingPayment: false });
+    });
   };
 
   render() {
-    const { openPayment, amount, isMakingPayment } = this.state;
+    const { amount, isMakingPayment } = this.state;
 
-    return openPayment ? (
-      <FlutterWave
-        amount={amount}
-        title="Fund Wallet"
-        description="Fund your Emerald Farms wallet"
-      />
-    ) : isMakingPayment ? (
-      <Spinner size="sm" />
+    return isMakingPayment ? (
+      <div style={{ textAlign: "center" }}>
+        <Spinner size="lg" />
+      </div>
     ) : (
       <div>
         <div className="p-2">
@@ -55,13 +53,6 @@ class FundWallet extends PureComponent {
           style={{ width: "100%" }}
         >
           <Button variant="primary" onClick={this.handleNext}>
-            {/* {isFunding ? (
-              <Spinner animation="border" role="status" size="sm">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            ) : (
-              "Fund Wallet"
-            )} */}
             Next
           </Button>
         </div>

@@ -2,16 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Card } from "../../ecommerce/svgs";
 import { connect } from "react-redux";
-import { getWallets, transferFunds } from "../../redux/actions";
+import { getWallets, toggleModal, transferFunds } from "../../redux/actions";
 import swal from "sweetalert";
 import { baseUrl } from "../../config";
 import InvestmentsSummary from "../../components/cards/InvestmentsSummary.js";
+import { getParameterByName } from "../../utils/urls";
 
-const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
+const Wallet = ({
+  token,
+  getWallets,
+  wallets = [],
+  transferFunds,
+  toggleModal,
+}) => {
   const [smallText, setSmallText] = useState("");
   const [showFund, setShowFund] = useState(false);
-  const handleCloseFund = () => setShowFund(false);
-  const handleShowFund = () => setShowFund(true);
+  const handleShowFund = () =>
+    toggleModal({ modal: "userboard", isOpen: true });
   const [showTransfer, setShowTransfer] = useState(false);
   const handleShowTransfer = () => setShowTransfer(true);
   const handleCloseTransfer = () => setShowTransfer(false);
@@ -19,8 +26,6 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
   const [origin, setOrigin] = useState("");
   const [transferAmount, setTransferAmount] = useState("");
   const [destination, setDestination] = useState("");
-  const [amount, setAmount] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
 
   console.log(":::::::::::::::::::balance", wallets);
 
@@ -70,7 +75,10 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
           <div>
             <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
               Current Balance <br />
-              <small className="pSmall">₦{card?.balance}.00</small>
+              <small className="pSmall">
+                ₦
+                {(card?.balance).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+              </small>
             </p>
           </div>
         </div>
@@ -83,29 +91,6 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
       </div>
     );
   });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("yes");
-    await fetch(`${baseUrl}/api/v1/users/wallet/fundWallet`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount: amount, paymentMethod: paymentMethod }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-
-    handleCloseFund();
-    swal("Wallet Funded!", ` With ${amount}`, "success");
-  };
 
   const handleSubmitTransfer = async (e) => {
     e.preventDefault();
@@ -122,11 +107,23 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
       });
     }
 
-    handleCloseFund();
+    handleCloseTransfer();
   };
 
   useEffect(() => {
-    getWallets(token);
+    const successfulPayement = getParameterByName("status");
+    if (successfulPayement == "successful") {
+      swal(
+        "Payment was successful!",
+        "Your Emerald Wallet balance has been updated",
+        "success"
+      );
+      setTimeout(() => {
+        getWallets(token);
+      }, 5000);
+    } else {
+      getWallets(token);
+    }
   }, []);
 
   return (
@@ -172,48 +169,6 @@ const Wallet = ({ token, getWallets, wallets = [], transferFunds }) => {
       </div>
 
       <InvestmentsSummary />
-      <Modal show={showFund} onHide={handleCloseFund}>
-        <Modal.Body className="modalBody">
-          <div>
-            <div className="modalForm p-2">
-              <label for="exampleFormControlInput1">Amount</label>
-              <input
-                type="number"
-                class="form-control"
-                id="exampleFormControlInput1"
-                onChange={(e) => {
-                  setAmount(e.target.value);
-                }}
-              />
-            </div>
-
-            <div className="modalForm p-2">
-              <label for="exampleFormControlInput1">Payment Method</label>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                onChange={(e) => {
-                  setPaymentMethod(e.target.value);
-                }}
-              />
-            </div>
-
-            <div
-              className="modalForm p-2 d-flex justify-content-between"
-              style={{ width: "100%" }}
-            >
-              <Button variant="primary" onClick={handleSubmit}>
-                Fund Wallet
-              </Button>
-              {/* <label className="switched">
-                    <input type="checkbox" unchecked/>
-                    <span className="slider round"></span>
-                  </label> */}
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
 
       <Modal show={showTransfer} onHide={handleCloseTransfer}>
         <Modal.Body className="modalBody">
@@ -301,6 +256,7 @@ const mapStateToProps = (state) => {
 const mapDispatch = {
   getWallets,
   transferFunds,
+  toggleModal,
 };
 
 export default connect(mapStateToProps, mapDispatch)(Wallet);

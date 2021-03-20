@@ -13,10 +13,10 @@ import { NavbarBrand, Nav, NavDropdown } from "react-bootstrap";
 const pages = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
-  { name: "Farm Project", href: "/project" },
-  { name: "F.A.Q", href: "/faq" },
-  { name: "Blog", href: "/blog" },
+  { name: "Contact", href: "/getintouch" },
+  { name: "Farm Project", href: "/#" },
+  { name: "F.A.Q", href: "/#" },
+  { name: "Blog", href: "/#" },
 ];
 
 const customStyles = {

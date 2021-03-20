@@ -6,7 +6,7 @@ import { signInStart } from "../../redux/actions";
 import { useHistory } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
-const Login = ({ closeModal, signInStart, auth }) => {
+const Login = ({ closeModal, signInStart, loading }) => {
   const history = useHistory();
 
   const [creds, setCreds] = useState({
@@ -24,8 +24,8 @@ const Login = ({ closeModal, signInStart, auth }) => {
     setIsLogingIn(true);
     signInStart(
       creds,
-      () => {
-        history.push("/dashboard");
+      (user) => {
+        history.push(user?.role == "user" ? "/dashboard" : "/admindashboard");
       },
       () => setIsLogingIn(false)
     );
@@ -75,7 +75,7 @@ const Login = ({ closeModal, signInStart, auth }) => {
           <div className="buttonContainer">
             <button
               onClick={onSignIn}
-              disabled={auth.loading}
+              disabled={loading}
               className="submitLoginButton"
             >
               {isLogingIn ? (
@@ -101,6 +101,6 @@ const Login = ({ closeModal, signInStart, auth }) => {
   );
 };
 
-const mapStateToProp = ({ auth }) => ({ auth });
+const mapStateToProp = ({ auth }) => ({ loading: auth?.loading });
 
 export default connect(mapStateToProp, { signInStart })(Login);

@@ -3,10 +3,11 @@ import {
   AUTH_SIGN_IN,
   ADD_USER,
   UPDATE_USER,
+  UPDATE_AUTH,
 } from "../type";
 
 const initialState = {
-  token: "",
+  token: null,
   role: "",
   loading: false,
   firstName: "",
@@ -14,6 +15,7 @@ const initialState = {
   email: "",
   otp: "",
   id: "",
+  password: "",
 };
 
 const AuthReducer = (state = initialState, { type, payload }) => {
@@ -34,6 +36,7 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         firstName: payload?.firstName,
         lastName: payload?.lastName,
         id: payload?.id,
+        password: payload?.password,
       };
 
     case ADD_USER:
@@ -44,9 +47,15 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         email: payload.email,
         otp: payload.otp,
         id: payload?.id,
+        password: payload?.password,
       };
 
     case UPDATE_USER:
+      return {
+        ...state,
+        ...payload,
+      };
+    case UPDATE_AUTH:
       return {
         ...state,
         ...payload,

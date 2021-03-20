@@ -9,34 +9,57 @@ import React, { useState, useEffect } from "react";
 // import Transactions from '../transaction/Transaction';
 import "./navStyle.css";
 import Routes from "../../routes/Routes";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import { getWallets, toggleModal } from "../../redux/actions";
+import {
+  getWallets,
+  toggleModal,
+  updateAuth,
+  getBanks,
+} from "../../redux/actions";
 import { Modal } from "react-bootstrap";
 import FundWallet from "../../components/payments/FundWallet";
 import FlutterWave from "../../components/payments/FlutterWave";
 import { Farmer } from "../account/svg";
-
-const sideMenuOptions = [
-  { name: "Dashboard", href: "/dashboard", iconClass: "fa-home" },
-  { name: "Messages", href: "/message", iconClass: "fa-envelope" },
-  { name: "Farm List", href: "/farmlist", iconClass: "fa-list" },
-  { name: "Emerald Bank", href: "/wallet", iconClass: "fa-industry" },
-  // { name: "Wallet", href: "/wallet", iconClass: "fa-credit-card" },
-  { name: "Settings", href: "/profile", iconClass: "fa-cog" },
-  { name: "Newsletter", href: "/newsletter", iconClass: "fa-map-signs" },
-];
+import { baseUrl } from "../../config";
+import { toast } from "react-toastify";
 
 const NavBar = ({
   firstName,
   lastName,
   id,
   token,
+  role,
   getWallets,
   wallets = [],
   modalIsOpen,
   toggleModal,
+  updateAuth,
+  getBanks,
 }) => {
+  const location = useLocation();
+  const history = useHistory();
+
+  const logout = async () => {
+    updateAuth({ changes: { token: null } });
+    await fetch(`${baseUrl}/api/v1/users/logout`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.code == 200) {
+          history.push("/");
+          toast.success(data?.message);
+        } else {
+          toast.error(data?.message);
+        }
+      });
+  };
+
   const [showSide, setShowSide] = useState({
     mainSide: 3,
     mainContent: 9,
@@ -44,10 +67,58 @@ const NavBar = ({
     inside: "80%",
   });
 
-  const location = useLocation();
+  const [sideMenuOptions, setSideMenuOptions] = useState([
+    {
+      name: "Dashboard",
+      href: "/dashboard",
+      iconClass: "fa-home",
+      role: "user",
+    },
+    {
+      name: "Dashboard",
+      href: "/admindashboard",
+      iconClass: "fa-home",
+      role: "admin",
+    },
+    {
+      name: "Admins",
+      href: "/admins",
+      role: "admin",
+      iconClass: "fa-user",
+    },
+    {
+      name: "Users",
+      href: "/adminusers",
+      role: "admin",
+      iconClass: "fa-users",
+    },
+    { name: "Messages", href: "/message", iconClass: "fa-envelope" },
+    {
+      name: "Farm List",
+      href: "/farmlist",
+      iconClass: "fa-list",
+      role: "user",
+    },
+    {
+      name: "Farm List",
+      href: "/bookfarm",
+      iconClass: "fa-list",
+      role: "admin",
+    },
+    {
+      name: "Emerald Bank",
+      href: "/wallet",
+      iconClass: "fa-industry",
+      role: "user",
+    },
+    { name: "Settings", href: "/profile", iconClass: "fa-cog" },
+    // { name: "Newsletter", href: "/newsletter", iconClass: "fa-map-signs" },
+    { name: "Logout", iconClass: "fa-sign-out", onClick: logout },
+  ]);
 
   useEffect(() => {
     getWallets(token);
+    getBanks(token);
   }, []);
 
   console.log({ wallets });
@@ -120,11 +191,16 @@ const NavBar = ({
             {wallets.map((wallet, i) => (
               <small key={i}>
                 {wallet?.type} wallet:{" "}
-                <div style={{ fontWeight: "bold" }}>₦{wallet?.balance}</div>
+                <div style={{ fontWeight: "bold" }}>
+                  ₦
+                  {(wallet?.balance)
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                </div>
               </small>
             ))}
           </div>
-          <a
+          <div
             href="#"
             className="user"
             style={{ textDecoration: "none", color: "#efadec" }}
@@ -135,90 +211,109 @@ const NavBar = ({
             <span style={{ marginLeft: 5 }} className="dname">
               {firstName}
             </span>
-          </a>
+          </div>
         </div>
       </div>
 
-      <div className="contentWrap row m-0">
+      <div className="contentWrap row m-0" style={{ minHeight: "100vh" }}>
         <div
           className={`sideNav col-md-${
             showSide.mainSide
           } col-sm-12 d-flex justify-content-center align-item-center p-${2}`}
         >
           <div className={`innerSideNav`} style={{ width: showSide.inside }}>
-            <div
-              className="me"
-              style={{
-                display: showSide.display,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Farmer />
-            </div>
-            <p
-              style={{
-                display: showSide.display,
-                padding: 0,
-                margin: 0,
-                fontSize: "20px",
-              }}
-            >
-              {firstName} {lastName}
-            </p>
+            {location.pathname == "/profile" ||
+            location.pathname == "/nextofkin" ||
+            location.pathname == "/bankdetails" ||
+            location.pathname == "/change-password" ? null : (
+              <>
+                <div
+                  className="me"
+                  style={{
+                    display: showSide.display == "" ? "flex" : "none",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Farmer />
+                </div>
+                <p
+                  style={{
+                    display: showSide.display,
+                    padding: 0,
+                    margin: 0,
+                    fontSize: "20px",
+                  }}
+                >
+                  {firstName} {lastName}
+                </p>
+                <div style={{ marginBottom: "50px" }}>
+                  <small
+                    style={{
+                      display: showSide.display,
+                      color: "#41EC7B",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {role == "superadmin"
+                      ? "Super Admin"
+                      : role == "admin"
+                      ? "Admin"
+                      : "User"}
+                  </small>
+                </div>
+              </>
+            )}
             {/* <Link to="/account" style={{ marginBottom: "50px" }}> */}
-            <Link to="/user/profile" style={{ marginBottom: "50px" }}>
-              <small
-                style={{
-                  display: showSide.display,
-                  color: "#41EC7B",
-                  textDecoration: "none",
-                }}
-              >
-                User profile
-              </small>
-            </Link>
             <div className="navList">
               <ul style={{ padding: 0 }}>
-                {sideMenuOptions.map((option, i) => {
-                  const isSelected = location.pathname == option.href;
-                  return (
-                    <li
-                      key={i}
-                      className={`${isSelected ? "selectedNav" : ""}`}
-                    >
-                      <Link
-                        to={option.href}
-                        style={{
-                          justifyContent:
-                            showSide.mainSide == 1 ? "center" : "flex-start",
-                        }}
+                {sideMenuOptions
+                  .filter(
+                    (option, i) =>
+                      role != "admin" && role != "superadmin" // User not an admin
+                        ? option.role != "admin" // Display all where role != admin
+                        : option.role != "user" //else dislay all where role != user
+                  )
+                  .map((option, i) => {
+                    const isSelected = location.pathname == option.href;
+                    return (
+                      <li
+                        key={i}
+                        className={`${isSelected ? "selectedNav" : ""}`}
                       >
-                        <span
-                          className="icon"
+                        <Link
+                          to={option?.href}
                           style={{
-                            minWidth: showSide.mainSide == 1 ? "auto" : "60px",
+                            justifyContent:
+                              showSide.mainSide == 1 ? "center" : "flex-start",
                           }}
+                          onClick={option.onClick ? option.onClick : () => {}}
                         >
-                          <i
-                            className={`fa ${option.iconClass}`}
-                            aria-hidden="true"
-                          ></i>
-                        </span>
-                        <span
-                          className="titleList"
-                          style={{
-                            display:
-                              showSide.mainSide == 1 ? "none" : "inherit",
-                          }}
-                        >
-                          {option.name}
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
+                          <span
+                            className="icon"
+                            style={{
+                              minWidth:
+                                showSide.mainSide == 1 ? "auto" : "60px",
+                            }}
+                          >
+                            <i
+                              className={`fa ${option.iconClass}`}
+                              aria-hidden="true"
+                            ></i>
+                          </span>
+                          <span
+                            className="titleList"
+                            style={{
+                              display:
+                                showSide.mainSide == 1 ? "none" : "inherit",
+                            }}
+                          >
+                            {option.name}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           </div>
@@ -253,10 +348,16 @@ const mapStateToProps = (state) => {
     token: state.auth.token,
     wallets: state?.user?.wallets,
     modalIsOpen: state?.modals?.userboard?.isOpen,
+    role: state.auth?.role,
     // paymentAmount:,
     // paymentTitle:,
     // paymentDescription:,
   };
 };
 
-export default connect(mapStateToProps, { getWallets, toggleModal })(NavBar);
+export default connect(mapStateToProps, {
+  getWallets,
+  toggleModal,
+  updateAuth,
+  getBanks,
+})(NavBar);

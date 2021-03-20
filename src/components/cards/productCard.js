@@ -6,8 +6,10 @@ import "./styles/productCard.css";
 const ProductCard = ({ Icon, title, roi, amount, months, units }) => {
   return (
     <div className="card">
-      <div className="imageHolder">
-        <Icon className="image" />
+      <div className="imageHolderHolder">
+        <div className="imageHolder">
+          <Icon className="image" />
+        </div>
       </div>
       <div className="product__content">
         <div className="top">
@@ -34,9 +36,9 @@ const ProductCard = ({ Icon, title, roi, amount, months, units }) => {
           </div>
         </div>
         <div className="bottom">
-          <div className="bar">
+          {/* <div className="bar">
             <div className="slider"></div>
-          </div>
+          </div> */}
           <div>{units}</div>
         </div>
       </div>
