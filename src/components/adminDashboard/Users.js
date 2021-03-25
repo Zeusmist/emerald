@@ -73,6 +73,9 @@ const ActionButton = ({
         <div ref={ref} className="editButtonModal">
           {options.map((option, i) => (
             <div key={i} onClick={() => handleOptionClick(i)}>
+              {option?.icon && (
+                <i class={`fa fa-${option?.icon} mr-2`} aria-hidden="true"></i>
+              )}
               {option.name}
             </div>
           ))}
@@ -95,8 +98,8 @@ class Users extends PureComponent {
       isFetchingUsers: true,
       users: [],
       options: [
-        { name: "View Profile" },
-        { name: "Delete User" },
+        { icon: "user", name: "View Profile" },
+        { icon: "trash", name: "Delete User" },
         // { name: "Help book a farm" },
       ],
     };

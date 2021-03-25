@@ -111,6 +111,7 @@ class AddAdminModal extends PureComponent {
                     onChange={(e) =>
                       this.setStateValue(field.state, e.target.value)
                     }
+                    placeholder="min of 8 characters"
                   />
                 </div>
               ))}

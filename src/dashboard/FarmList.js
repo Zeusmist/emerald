@@ -10,6 +10,9 @@ import Switch from "react-switch";
 import Spinner from "../components/Spinner";
 import { toggleModal } from "../redux/actions";
 
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 class FarmList extends PureComponent {
   state = {
     farms: [],
@@ -138,30 +141,61 @@ class FarmList extends PureComponent {
               </thead>
               {farms.length > 0 && (
                 <tbody>
-                  {farms.map((farm, i) => (
-                    <tr key={i}>
-                      <td scope="row">{farm?.name}</td>
-                      <td>
-                        ₦
-                        {(farm?.cost_per_unit)
-                          .toFixed(2)
-                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                      </td>
-                      <td>{farm?.status}</td>
-                      <td>{farm?.return}%</td>
-                      <td>{farm?.duration} days</td>
-                      <td>{farm?.no_of_available_units} units</td>
-                      <td>
-                        <button
-                          type="button"
-                          className="cusBut"
-                          onClick={() => this.handleSelectFarm(farm?._id)}
+                  {farms.map((farm, i) => {
+                    const color = farm?.status == "closed" ? "red" : "#41EC7B";
+                    const trailColor =
+                      farm?.status == "closed" ? "#F5F5F5" : "#C3F9D6";
+                    const pathColor =
+                      farm?.status == "closed" ? "#DAD7E5" : "#0E4944";
+                    // const
+                    return (
+                      <tr key={i}>
+                        <td
+                          style={{ color, borderTopColor: "#000" }}
+                          scope="row"
                         >
-                          Buy
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                          {farm?.name}
+                        </td>
+                        <td style={{ color, borderTopColor: "#000" }}>
+                          ₦
+                          {(farm?.cost_per_unit)
+                            .toFixed(2)
+                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                        </td>
+                        <td style={{ color, borderTopColor: "#000" }}>
+                          {farm?.status}
+                        </td>
+                        <td style={{ height: "40px", width: "40px" }}>
+                          <CircularProgressbar
+                            value={farm?.return}
+                            text={`${farm?.return}%`}
+                            strokeWidth={15}
+                            styles={buildStyles({
+                              strokeLinecap: "butt",
+                              pathColor,
+                              textColor: "#696C7E",
+                              trailColor,
+                            })}
+                          />
+                        </td>
+                        <td style={{ color, borderTopColor: "#000" }}>
+                          {farm?.duration} days
+                        </td>
+                        <td style={{ color, borderTopColor: "#000" }}>
+                          {farm?.no_of_available_units} units
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            className="cusBut"
+                            onClick={() => this.handleSelectFarm(farm?._id)}
+                          >
+                            Buy
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               )}
             </table>

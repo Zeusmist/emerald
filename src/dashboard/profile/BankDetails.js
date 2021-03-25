@@ -160,9 +160,12 @@ const BankDetails = ({ getBanks, token, cards, banks }) => {
       </div>
 
       <Modal show={showBank} onHide={handleCloseBank}>
-        <Modal.Body className="modalBody">
+        <Modal.Body
+          className="modalBody"
+          style={{ borderRadius: "5px!important" }}
+        >
           <div>
-            <h2>Bank Details</h2>
+            <h4 class="p-2">Bank Details</h4>
             <div className="modalForm p-2" style={{ width: "initial" }}>
               <label for="exampleFormControlInput1">Bank Name</label>
               <select
@@ -210,8 +213,12 @@ const BankDetails = ({ getBanks, token, cards, banks }) => {
               className="modalForm p-2 d-flex justify-content-between"
               style={{ width: "100%" }}
             >
-              <button className="btn btn-success" onClick={handleAddBank}>
-                {isAddingBank ? <Spinner size="sm" /> : "Add bank"}
+              <button
+                className="btn btn-success"
+                onClick={handleAddBank}
+                style={{ backgroundColor: "#7E7E7E" }}
+              >
+                {isAddingBank ? <Spinner size="sm" /> : "Save"}
               </button>
             </div>
           </div>

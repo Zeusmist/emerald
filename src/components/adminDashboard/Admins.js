@@ -83,7 +83,11 @@ const ActionButton = ({
         Edit
       </button>
       {isOpen && (
-        <div ref={ref} className="editButtonModal">
+        <div
+          ref={ref}
+          className="editButtonModal"
+          style={{ left: "-90px", top: "50px" }}
+        >
           {options.map((option, i) => (
             <div key={i} onClick={() => handleOptionClick(i)}>
               {option.name}

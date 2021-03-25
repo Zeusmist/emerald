@@ -13,6 +13,9 @@ class TabHeader extends PureComponent {
   handleFundWallet = () =>
     this.props.toggleModal({ modal: "userboard", isOpen: true });
 
+  handlePayoutRequest = () =>
+    this.props.openPayoutModal ? this.props.openPayoutModal() : () => {};
+
   fnGetFileNameFromContentDispostionHeader = (header) => {
     let contentDispostion = header.split(";");
     const fileNameToken = `filename*=UTF-8''`;
@@ -71,48 +74,59 @@ class TabHeader extends PureComponent {
     const { activeTab, setActiveTab } = this.props;
     const { isDownloading } = this.state;
     return (
-      <div className="dashboardTopAction row">
-        <div className="col-2">
+      <>
+        <div style={{ display: "flex", marginBottom: "10px" }}>
           <button
             className="btn btn-primary fundWalletButton"
             onClick={this.handleFundWallet}
           >
             Fund Wallet
           </button>
-        </div>
-        <div className="col">
-          {/* <DaySelector /> */}
-          {tabs.map((tab, i) => (
+          {activeTab == "Payouts" && (
             <button
-              key={i}
-              type="button"
-              className={`butGroup col-md-3 col ${
-                activeTab == tab ? "activeBtn" : ""
-              } durBtn`}
-              onClick={() => setActiveTab(tab)}
+              className="btn btn-primary fundWalletButton"
+              onClick={this.handlePayoutRequest}
+              style={{ marginLeft: "20px" }}
             >
-              {tab}
+              Request Payout
             </button>
-          ))}
+          )}
         </div>
-        <div className="col-2" style={{ maxWidth: "inherit" }}>
-          {/* <ExportButton /> */}
-          <button
-            type="button"
-            className="btn btn-primary fundWalletButton"
-            style={{ borderRadius: 8 }}
-            onClick={this.handleDownload}
-          >
-            {isDownloading ? (
-              <Spinner size="sm" />
-            ) : (
-              <>
-                <i className="fa fa-download" aria-hidden="true"></i> Download
-              </>
-            )}
-          </button>
+        <div className="dashboardTopAction row">
+          <div className="col">
+            {/* <DaySelector /> */}
+            {tabs.map((tab, i) => (
+              <button
+                key={i}
+                type="button"
+                className={`butGroup col-md-3 col ${
+                  activeTab == tab ? "activeBtn" : ""
+                } durBtn`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="col-3" style={{ maxWidth: "inherit" }}>
+            {/* <ExportButton /> */}
+            <button
+              type="button"
+              className="btn btn-primary fundWalletButton"
+              style={{ borderRadius: 8 }}
+              onClick={this.handleDownload}
+            >
+              {isDownloading ? (
+                <Spinner size="sm" />
+              ) : (
+                <>
+                  <i className="fa fa-download" aria-hidden="true"></i> Download
+                </>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }

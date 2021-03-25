@@ -15,7 +15,11 @@ const DateInFoButton = ({ startDate, endDate, onOpen, isOpen, onClose }) => {
 
   return (
     <td className="editButton">
-      <button className="actionBut" onClick={onOpen}>
+      <button
+        className="actionBut"
+        onClick={onOpen}
+        style={{ backgroundColor: "#41EC7B" }}
+      >
         View
       </button>
       {isOpen && (
@@ -45,6 +49,7 @@ const ActionButton = ({
   options,
   onClose,
   setFarms,
+  onEditFarm,
 }) => {
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
@@ -54,6 +59,9 @@ const ActionButton = ({
   });
 
   const handleOptionClick = (i) => {
+    if (i == 0) {
+      onEditFarm();
+    }
     if (i == 1)
       setConfirmationModalOpen({
         i,
@@ -78,6 +86,7 @@ const ActionButton = ({
           console.log("Data after delete", data);
           if (data?.code == 200) {
             toast.success(data?.message);
+            setConfirmationModalOpen(false);
             setFarms();
           } else {
             toast.error(data?.message);
@@ -88,7 +97,11 @@ const ActionButton = ({
 
   return (
     <td className="editButton">
-      <button className="actionBut" onClick={onOpen}>
+      <button
+        className="actionBut"
+        onClick={onOpen}
+        style={{ backgroundColor: "#B2A0FD" }}
+      >
         More
       </button>
       {isOpen && (
@@ -99,6 +112,9 @@ const ActionButton = ({
               onClick={() => handleOptionClick(i)}
               style={{ textAlign: "left" }}
             >
+              {option?.icon && (
+                <i class={`fa fa-${option?.icon} mr-2`} aria-hidden="true"></i>
+              )}
               {option.name}
             </div>
           ))}
@@ -116,7 +132,11 @@ const ActionButton = ({
 class BookFarm extends PureComponent {
   state = {
     farms: [],
-    options: [{ name: "Edit farm" }, { name: "Delete farm" }],
+    options: [
+      { icon: "pencil", name: "Edit farm" },
+      { icon: "trash", name: "Delete farm" },
+    ],
+    updatingValues: false,
   };
 
   setFarms = async () => {
@@ -131,8 +151,9 @@ class BookFarm extends PureComponent {
       .then(async (data) => {
         console.log("Get farms data", data);
         if (data?.code == 200) {
+          const reversedData = data?.data.reverse();
           this.setState({
-            farms: data?.data,
+            farms: reversedData,
           });
         } else {
           toast.error(data?.message);
@@ -153,6 +174,7 @@ class BookFarm extends PureComponent {
       dateInfoModalIsOpen,
       options,
       addingNewFarm,
+      updatingValues,
     } = this.state;
 
     const { token } = this.props;
@@ -211,7 +233,12 @@ class BookFarm extends PureComponent {
                         ></div>
                       </th>
                       <td>{farm?.name}</td>
-                      <td>{farm?.cost_per_unit}</td>
+                      <td>
+                        ₦
+                        {(farm?.cost_per_unit)
+                          .toFixed(2)
+                          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                      </td>
                       <DateInFoButton
                         onOpen={() =>
                           this.setState({ dateInfoModalIsOpen: farm?._id })
@@ -241,6 +268,9 @@ class BookFarm extends PureComponent {
                         }
                         options={options}
                         setFarms={this.setFarms}
+                        onEditFarm={() => {
+                          this.setState({ updatingValues: farm });
+                        }}
                       />
                     </tr>
                   ))}
@@ -258,10 +288,16 @@ class BookFarm extends PureComponent {
             )}
           </div>
         </div>
-        <AddFarmModal
-          isOpen={addingNewFarm}
-          closeModal={() => this.setState({ addingNewFarm: false })}
-        />
+        {(addingNewFarm || updatingValues) && (
+          <AddFarmModal
+            isOpen={addingNewFarm || updatingValues}
+            updatingValues={this.state.updatingValues}
+            closeModal={() =>
+              this.setState({ addingNewFarm: false, updatingValues: false })
+            }
+            setFarms={this.setFarms}
+          />
+        )}
       </div>
     );
   }

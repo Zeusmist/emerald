@@ -4,8 +4,9 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import { baseUrl } from "../config";
+import { verifyUser } from "../redux/actions";
 
-const Verify = ({ email, userName, otpData }) => {
+const Verify = ({ email, userName, password, otpData, verifyUser }) => {
   let history = useHistory();
   const [otp, setOtp] = useState("");
   const [otpMessage, setOtpMessage] = useState("");
@@ -32,11 +33,15 @@ const Verify = ({ email, userName, otpData }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        if (data?.status == "fail") {
+        if (data?.status == "success") {
+          verifyUser({ ...data, password });
+          // setTimeout(() => {
+          history.push("/dashboard");
+          // }, 20000);
+        } else {
           toast.error(data.message);
           return;
         }
-        history.push("/dashboard");
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -111,9 +116,10 @@ const Verify = ({ email, userName, otpData }) => {
 const mapStateToProps = (state) => {
   return {
     email: state.auth.email,
+    password: state.auth?.password,
     userName: state.auth.userName,
     otpData: state.auth.otp,
   };
 };
 
-export default connect(mapStateToProps, null)(Verify);
+export default connect(mapStateToProps, { verifyUser })(Verify);

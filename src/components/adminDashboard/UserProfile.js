@@ -14,28 +14,25 @@ class UserProfile extends PureComponent {
     banks: [],
   };
 
-  getBankAccounts = async (ids) => {
-    console.log({ ids });
+  getBankAccounts = async (id) => {
     let banks = [];
-    for (let i in ids) {
-      await fetch(`${baseUrl}/api/v1/users/getSingleBankDetail?_id=${ids[i]}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${this.props.token}`,
-          "Content-Type": "application/json",
-        },
+    await fetch(`${baseUrl}/api/v1/admin/getAllBankDetails?_owner=${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Get bank data", data);
+        if (data?.code == 200) {
+          banks.push(...data?.data);
+        } else {
+          toast.error(data?.message);
+        }
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Get bank data", data);
-          if (data?.code == 200) {
-            bank.push(data?.data);
-          } else {
-            toast.error(data?.message);
-          }
-        })
-        .catch((e) => console.log(e));
-    }
+      .catch((e) => console.log(e));
     this.setState({ banks });
   };
 
@@ -55,7 +52,7 @@ class UserProfile extends PureComponent {
             console.log("Get user data", data);
             if (data?.code == 200) {
               if (data?.data?.bankAccounts) {
-                await this.getBankAccounts(data?.data?.bankAccounts);
+                await this.getBankAccounts(userId);
               }
               this.setState({
                 userData: data?.data,
@@ -88,6 +85,7 @@ class UserProfile extends PureComponent {
       nextOfKinData,
       banks,
       isFundingWallet,
+      isWithdrawingWallet,
       userId,
     } = this.state;
     const { token } = this.props;
@@ -169,8 +167,8 @@ class UserProfile extends PureComponent {
           >
             <h6>Bank Details</h6>
             {banks.map((bank, i) => (
-              <div style={{ marginBottom: "10px" }}>
-                • {bank.bankName.toUpperCase() + " " + bank.accountNumber}
+              <div key={i} style={{ marginBottom: "10px" }}>
+                • {(bank?.bankName).toUpperCase() + " " + bank.accountNumber}
               </div>
             ))}
             {banks.length == 0 && <div>No banks saved</div>}
@@ -194,6 +192,20 @@ class UserProfile extends PureComponent {
                 closeModal={() => this.setState({ isFundingWallet: false })}
                 id={userId}
                 token={token}
+              />
+              <button
+                className="btn btn-outline-secondary"
+                onClick={() => this.setState({ isWithdrawingWallet: true })}
+                style={{ marginTop: "10px" }}
+              >
+                Withdraw Funds
+              </button>
+              <FundWalletModal
+                isOpen={isWithdrawingWallet}
+                closeModal={() => this.setState({ isWithdrawingWallet: false })}
+                id={userId}
+                token={token}
+                isWithdrawingWallet
               />
             </div>
 

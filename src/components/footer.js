@@ -55,7 +55,7 @@ const sections = [
 export default function Footer() {
   return (
     <Container fluid style={{ padding: 0 }}>
-      <Row className="emerald_footer">
+      <div className="emerald_footer">
         {sections.map((section, i) => (
           <Col key={i} class="footer_section">
             <p>
@@ -64,7 +64,9 @@ export default function Footer() {
             {section.ChildComponent && <section.ChildComponent />}
           </Col>
         ))}
-      </Row>
+      </div>
+      {/* <Row className="emerald_footer">
+      </Row> */}
     </Container>
   );
 }

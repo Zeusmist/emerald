@@ -84,9 +84,7 @@ class InvestmentHistory extends PureComponent {
                       <td>{investment?.farm?.name}</td>
                       <td>
                         ₦
-                        {Number(
-                          investment?.farm?.cost_per_unit["$numberDecimal"]
-                        )
+                        {Number(investment?.farm?.cost_per_unit)
                           .toFixed(2)
                           .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                       </td>

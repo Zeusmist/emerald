@@ -75,9 +75,9 @@ class NextOfKin extends PureComponent {
 
         <div className="formCard">
           {formRows.map((row, i) => (
-            <div className="profForm">
-              {row.map((field, i) => (
-                <div>
+            <div key={i} className="profForm">
+              {row.map((field, j) => (
+                <div key={j}>
                   <label className="formLabel" for="exampleFormControlInput1">
                     {field.name}
                   </label>

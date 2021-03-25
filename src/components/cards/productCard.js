@@ -3,25 +3,34 @@ import { Line } from "../svg";
 
 import "./styles/productCard.css";
 
-const ProductCard = ({ Icon, title, roi, amount, months, units }) => {
+const ProductCard = ({ product }) => {
   return (
     <div className="card">
       <div className="imageHolderHolder">
-        <div className="imageHolder">
-          <Icon className="image" />
-        </div>
+        <div
+          className="imageHolder"
+          style={{
+            // width: 40,
+            // height: 40,
+            // borderRadius: 100,
+            backgroundImage: `url(${product?.imageUrl})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
       </div>
       <div className="product__content">
         <div className="top">
-          <span className="top__main">{title}</span>
-          <span className="top__sub">{roi}</span>
+          <span className="top__main">{product?.name}</span>
+          <span className="top__sub">{product?.return}%</span>
           <span className="top__roi_sub">ROI</span>
         </div>
         <div className="middle">
           <div className="middle__content">
             <div className="number">
               <span className="month__number__light">₦</span>
-              <span className="middleMain">{amount}</span>
+              <span className="middleMain">{product?.cost_per_unit}</span>
               <span className="month__number__light">.00</span>
             </div>
             <span className="card_underText">Amount per unit</span>
@@ -31,15 +40,12 @@ const ProductCard = ({ Icon, title, roi, amount, months, units }) => {
             <Line />
           </span>
           <div className="middle__content">
-            <span className="month__number">{months}</span>
-            <span className="card_underText">Months</span>
+            <span className="month__number">{product?.duration}</span>
+            <span className="card_underText">Days</span>
           </div>
         </div>
         <div className="bottom">
-          {/* <div className="bar">
-            <div className="slider"></div>
-          </div> */}
-          <div>{units}</div>
+          <div>{product?.no_of_available_units} units available</div>
         </div>
       </div>
     </div>

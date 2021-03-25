@@ -12,6 +12,19 @@ import { signInRequest } from "../../services";
 import { toast } from "react-toastify";
 import { baseUrl } from "../../config";
 
+export const verifyUser = (data) => (dispatch) => {
+  console.log({ data });
+  dispatch({
+    type: AUTH_SIGN_IN,
+    payload: {
+      ...data?.data?.user,
+      token: data?.token,
+      id: data?.data?.user?._id,
+      password: data?.password,
+    },
+  });
+};
+
 export const signInStart = (
   creds,
   onSuccess = () => {},

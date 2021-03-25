@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { baseUrl } from "../../config";
 import { addUsers } from "../../redux/actions";
 import Spinner from "../Spinner";
+import { get } from "lodash";
 
 const fields1 = [
   { name: "Farm Name", state: "name" },
@@ -21,23 +22,35 @@ const fields2 = [
 ];
 
 class AddFarmModal extends PureComponent {
-  state = {
-    name: "",
-    return_value: "1",
-    duration: "1",
-    cost_per_unit: "1",
-    no_of_available_units: "1",
-    availability_date: "",
-    closing_date: "",
-    description: "",
-    image: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      updatingValues: props?.updatingValues,
+      name: props?.updatingValues?.name || "",
+      return_value: props?.updatingValues?.return || "1",
+      duration: props?.updatingValues?.duration || "1",
+      cost_per_unit: props?.updatingValues?.cost_per_unit || "1",
+      no_of_available_units: props?.updatingValues?.name || "1",
+      availability_date: props?.updatingValues?.availability_date || new Date(),
+      closing_date: props?.updatingValues?.closing_date || new Date(),
+      description: props?.updatingValues?.description || "",
+      image: props?.updatingValues?.image || "",
+    };
+  }
 
   setStateValue = (state, value, type) => {
+    const { updatingValues } = this.state;
     if (type == "number") {
       value = value.replace(/[^0-9]/g, "");
     }
-    this.setState({ [state]: value });
+
+    if (updatingValues) {
+      this.setState({
+        updatingValues: { ...this.state.updatingValues, [state]: value },
+      });
+    } else {
+      this.setState({ [state]: value });
+    }
   };
 
   handleAddFarm = (e) => {
@@ -54,44 +67,56 @@ class AddFarmModal extends PureComponent {
         closing_date,
         description,
         image,
+        updatingValues,
       } = this.state;
-      console.log({
-        name,
-        return_value,
-        duration,
-        cost_per_unit,
-        no_of_available_units,
-        availability_date,
-        closing_date,
-        description,
-        image,
-      });
-      formdata.append("name", name);
-      formdata.append("return", return_value);
-      formdata.append("duration", duration);
-      formdata.append("cost_per_unit", cost_per_unit);
-      formdata.append("no_of_available_units", no_of_available_units);
-      formdata.append(
-        "availability_date",
-        new Date(availability_date).toISOString()
-      );
-      formdata.append("closing_date", new Date(closing_date).toISOString());
-      formdata.append("description", description);
-      formdata.append("image", image);
 
-      await fetch(`${baseUrl}/api/v1/admin/addFarm`, {
-        method: "POST",
+      if (updatingValues) {
+        Object.keys(updatingValues)
+          .filter((val, i) => val != "imageUrl" && val != "bannerUrl")
+          .forEach((value, i) => {
+            formdata.append(`${value}`, updatingValues[value]);
+          });
+      } else {
+        formdata.append("name", name);
+        formdata.append("return", return_value);
+        formdata.append("duration", duration);
+        formdata.append("cost_per_unit", cost_per_unit);
+        formdata.append("no_of_available_units", no_of_available_units);
+        formdata.append(
+          "availability_date",
+          new Date(availability_date).toISOString()
+        );
+        formdata.append("closing_date", new Date(closing_date).toISOString());
+        formdata.append("description", description);
+        formdata.append("image", image);
+      }
+
+      for (var key of formdata.keys()) {
+        console.log(key);
+      }
+      for (var value of formdata.values()) {
+        console.log(value);
+      }
+
+      const url = updatingValues
+        ? `${baseUrl}/api/v1/admin/updateFarm/603b0ccbdee73f158803d2d5`
+        : `${baseUrl}/api/v1/admin/addFarm`;
+
+      await fetch(url, {
+        method: updatingValues ? "PATCH" : "POST",
         headers: {
           Authorization: `Bearer ${this.props.token}`,
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data ",
         },
         body: formdata,
       })
         .then((res) => res.json())
         .then((data) => {
           console.log("Create farm data", data);
-          if (data?.code == 200) {
+          if (data?.code == 201 || data?.code == 200) {
             toast.success(data?.message);
+            this.props.closeModal();
+            this.props.setFarms();
           } else {
             toast.error(data?.message);
           }
@@ -104,16 +129,35 @@ class AddFarmModal extends PureComponent {
 
   render() {
     const { isOpen, closeModal } = this.props;
-    const { isAdding } = this.state;
+    const { isAdding, updatingValues } = this.state;
     return (
       <>
         <Modal show={isOpen} onHide={closeModal}>
-          <Modal.Body className="modalBody">
-            <div>
+          <Modal.Body className="modalBody slsl">
+            <div
+              style={{
+                backgroundColor: "#B2A0FD",
+                width: "100%",
+                color: "#fff",
+                textAlign: "center",
+                padding: "10px 0",
+                fontWeight: "500",
+                borderTopLeftRadius: "10px",
+                borderTopRightRadius: "10px",
+              }}
+            >
+              {updatingValues ? "Update " : "Create"} Farm Booking
+            </div>
+            <div style={{ padding: "3% 10%" }}>
               <form onSubmit={this.handleAddFarm}>
                 {fields1.map((field, i) => (
                   <div className="modalForm p-2">
-                    <label for="exampleFormControlInput1">{field.name}</label>
+                    <label
+                      for="exampleFormControlInput1"
+                      style={{ fontSize: "16px" }}
+                    >
+                      {field.name}
+                    </label>
                     {field.type == "number" ? (
                       <div style={{ display: "flex" }}>
                         <div className="inputIcon">
@@ -136,8 +180,19 @@ class AddFarmModal extends PureComponent {
                               field?.type
                             )
                           }
-                          value={this.state[field?.state]}
-                          style={{ position: "relative", left: "-5px" }}
+                          // value={this.state[field?.state]}
+                          value={get(
+                            updatingValues,
+                            `${field.state}`,
+                            this.state[field.state]
+                          )}
+                          style={{
+                            border: "0",
+                            borderBottom: "1px solid #ced4da",
+                            borderRadius: "0",
+                            position: "relative",
+                            left: "-5px",
+                          }}
                         />
                       </div>
                     ) : (
@@ -152,7 +207,18 @@ class AddFarmModal extends PureComponent {
                             field?.type
                           )
                         }
-                        value={this.state[field?.state]}
+                        // value={this.state[field?.state]}
+                        value={get(
+                          updatingValues,
+                          `${field.state}`,
+                          this.state[field.state]
+                        )}
+                        style={{
+                          border: "0",
+                          borderBottom: "1px solid #ced4da",
+                          borderRadius: "0",
+                        }}
+                        placeholder="Farm name"
                       />
                     )}
                   </div>
@@ -166,7 +232,17 @@ class AddFarmModal extends PureComponent {
                     onChange={(e) =>
                       this.setStateValue("availability_date", e.target.value)
                     }
-                    value={this.state.availability_date}
+                    // value={this.state.availability_date}
+                    value={get(
+                      updatingValues,
+                      `availability_date`,
+                      this.state.availability_date
+                    )}
+                    style={{
+                      border: "0",
+                      borderBottom: "1px solid #ced4da",
+                      borderRadius: "0",
+                    }}
                   />
                 </div>
 
@@ -178,13 +254,34 @@ class AddFarmModal extends PureComponent {
                     onChange={(e) =>
                       this.setStateValue("closing_date", e.target.value)
                     }
-                    value={this.state.closing_date}
+                    // value={this.state.closing_date}
+                    value={get(
+                      updatingValues,
+                      `closing_date`,
+                      this.state.closing_date
+                    )}
+                    style={{
+                      border: "0",
+                      borderBottom: "1px solid #ced4da",
+                      borderRadius: "0",
+                    }}
                   />
                 </div>
 
                 <div className="modalForm p-2">
                   <label for="exampleFormControlInput1">Description</label>
-                  <textarea class="form-control" rows="4"></textarea>
+                  <textarea
+                    class="form-control"
+                    rows="4"
+                    onChange={(e) =>
+                      this.setStateValue("description", e.target.value)
+                    }
+                    value={get(
+                      updatingValues,
+                      `description`,
+                      this.state.description
+                    )}
+                  ></textarea>
                 </div>
 
                 <div className="modalForm p-2">
@@ -196,6 +293,11 @@ class AddFarmModal extends PureComponent {
                     onChange={(e) =>
                       this.setStateValue("image", e.target.files[0])
                     }
+                    style={{
+                      border: "0",
+                      borderBottom: "1px solid #ced4da",
+                      borderRadius: "0",
+                    }}
                   />
                 </div>
 
@@ -208,8 +310,15 @@ class AddFarmModal extends PureComponent {
                     className="formBut1"
                     disabled={isAdding}
                     type="submit"
+                    style={{ width: "100%" }}
                   >
-                    {isAdding ? <Spinner size="sm" /> : "Add farm"}
+                    {isAdding ? (
+                      <Spinner size="sm" />
+                    ) : updatingValues ? (
+                      "Update farm"
+                    ) : (
+                      "Add farm"
+                    )}
                   </Button>
                 </div>
               </form>

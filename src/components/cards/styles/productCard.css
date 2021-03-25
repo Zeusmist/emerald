@@ -6,6 +6,7 @@
   border: none;
   justify-content: center;
   margin-bottom: 10px;
+  box-shadow: 1px 1px 25px 14px rgb(100 100 100 / 20%);
 }
 @media screen and (max-width: 767px) {
   .card {
@@ -13,7 +14,7 @@
   }
 }
 
-.imageHolderHolder{
+.imageHolderHolder {
   display: flex;
   justify-content: center;
 }
@@ -100,7 +101,7 @@
   color: #0a403b;
 }
 
-.bottom{
+.bottom {
   text-align: center;
 }
 

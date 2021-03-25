@@ -10,6 +10,7 @@ import "./dashboard.css";
 class Dashboard extends PureComponent {
   state = {
     activeTab: "Transactions",
+    payoutModalIsOpen: false,
   };
 
   renderTable = () => {
@@ -20,7 +21,12 @@ class Dashboard extends PureComponent {
       case "Investments":
         return <Investments />;
       case "Payouts":
-        return <Payouts />;
+        return (
+          <Payouts
+            payoutModalIsOpen={this.state.payoutModalIsOpen}
+            closePayoutModal={() => this.setState({ payoutModalIsOpen: false })}
+          />
+        );
       case "Deposits":
         return <Deposits />;
       default:
@@ -33,7 +39,11 @@ class Dashboard extends PureComponent {
     const { activeTab } = this.state;
     return (
       <div>
-        <TabHeader activeTab={activeTab} setActiveTab={this.setActiveTab} />
+        <TabHeader
+          activeTab={activeTab}
+          setActiveTab={this.setActiveTab}
+          openPayoutModal={() => this.setState({ payoutModalIsOpen: true })}
+        />
         {this.renderTable()}
         <InvestmentsSummary />
       </div>

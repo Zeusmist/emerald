@@ -35,6 +35,7 @@ class FundWallet extends PureComponent {
       </div>
     ) : (
       <div>
+        <h5 style={{ color: "#0E4944", paddingLeft: ".5rem" }}>Fund Wallet</h5>
         <div className="p-2">
           <label for="exampleFormControlInput1">Amount</label>
           <form onSubmit={this.handleNext}>
@@ -52,7 +53,11 @@ class FundWallet extends PureComponent {
           className="modalForm p-2 d-flex justify-content-between"
           style={{ width: "100%" }}
         >
-          <Button variant="primary" onClick={this.handleNext}>
+          <Button
+            variant="primary"
+            onClick={this.handleNext}
+            style={{ backgroundColor: "rgb(24 116 108)" }}
+          >
             Next
           </Button>
         </div>

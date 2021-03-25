@@ -92,7 +92,7 @@ const SignUp = ({ addUsers }) => {
                   onChange={handleLastName}
                 />
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <input
                   type="text"
                   className="form-control"
@@ -100,7 +100,7 @@ const SignUp = ({ addUsers }) => {
                   required="required"
                   onChange={(e) => setUserName(e.target.value)}
                 />
-              </div>
+              </div> */}
 
               <div className="form-group">
                 <input

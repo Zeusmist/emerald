@@ -112,7 +112,7 @@ const NavBar = ({
       role: "user",
     },
     { name: "Settings", href: "/profile", iconClass: "fa-cog" },
-    // { name: "Newsletter", href: "/newsletter", iconClass: "fa-map-signs" },
+    { name: "Newsletter", href: "/newsletter", iconClass: "fa-map-signs" },
     { name: "Logout", iconClass: "fa-sign-out", onClick: logout },
   ]);
 
@@ -322,7 +322,10 @@ const NavBar = ({
         <div className={`content col-md-${showSide.mainContent} col-sm-12 p-3`}>
           <Routes />
           <Modal show={modalIsOpen} onHide={closeModal}>
-            <Modal.Body className="modalBody">
+            <Modal.Body
+              className="modalBody"
+              style={{ backgroundColor: "#FFF" }}
+            >
               <FundWallet />
             </Modal.Body>
           </Modal>

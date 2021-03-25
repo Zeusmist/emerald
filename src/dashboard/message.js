@@ -28,8 +28,40 @@ class Message extends PureComponent {
           <h4 style={{ color: "#191D38" }}>Messages</h4>
           {/* <button type="button" className="cusBut">Fund wallet</button> */}
         </div>
-
         <div className="messageList mt-4 p-4">
+          <div>
+            {messages.map((message, i) => (
+              <div>
+                <div
+                  style={{
+                    backgroundColor: "#F5F5F5",
+                    padding: 15,
+                    textAlign: "center",
+                    color: "#AFAFAF",
+                  }}
+                >
+                  {new Date(message?.createdAt)
+                    .toLocaleDateString()
+                    .replaceAll("/", " | ")}
+                </div>
+                <div
+                  style={{
+                    padding: "1rem 3rem",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <i
+                    class={`fa fa-circle-o mr-4`}
+                    style={{ color: "#41EC7B" }}
+                    aria-hidden="true"
+                  ></i>
+                  {message?.text}
+                </div>
+              </div>
+            ))}
+          </div>
+
           {isFetchingMessages ? (
             <Spinner size="lg" />
           ) : (
